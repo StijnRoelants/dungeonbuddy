@@ -1,0 +1,7 @@
+{
+  "name": "eindproject_dungeonbuddy",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
