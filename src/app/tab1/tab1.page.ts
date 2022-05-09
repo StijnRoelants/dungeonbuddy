@@ -9,4 +9,10 @@ export class Tab1Page {
 
   constructor() {}
 
+
+  makeSmall(word: string): string {
+    return word.toLowerCase();
+  }
 }
+
+
