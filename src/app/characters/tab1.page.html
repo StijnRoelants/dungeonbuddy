@@ -18,12 +18,15 @@
     </ion-toolbar>
   </ion-header>
   <ion-list lines="inset" *ngFor="let char of characterList">
-    <div *ngIf="characterList.length === 0 then Empty else Filled "></div>
-    <ion-item #Empty>
-      <ion-label  >Oh noes</ion-label>
+    <ion-item lines="full">
+      <ion-label >
+        <h2>{{char.name}}</h2>
+      <p >{{char.race.name}} | {{char.alignment}}</p>
+      </ion-label>
     </ion-item>
-    <ion-item #Filled>
-      <ion-label >{{char.name}}</ion-label>
+    <ion-item *ngIf="characterList.length <= 0 || !characterList ">
+      <ion-label>Oh noes</ion-label>
     </ion-item>
+
   </ion-list>
 </ion-content>
