@@ -5,7 +5,7 @@ import {Skills} from './skills';
 export interface Character {
   id: string;
   name: string;
-  class: string;
+  playerClass: string;
   hitDie: number;
   alignment: string;
   background: string;
@@ -15,11 +15,17 @@ export interface Character {
   inspiration: number;
   passiveWisdom: number;
   strength: number;
+  strengthModif: number;
   dexterity: number;
+  dexterityModif: number;
   constitution: number;
+  constitutionModif: number;
   intelligence: number;
+  intelligenceModif: number;
   wisdom: number;
+  wisdomModif: number;
   charisma: number;
+  charismaModif: number;
   stStrength: number;
   stDexterity: number;
   stConstitution: number;
@@ -27,7 +33,7 @@ export interface Character {
   stWisdom: number;
   stCharisma: number;
   skills: Skills;
-  equipment: string[];
+  equipment?: string[];
   gold: number;
   personalTraits: string;
   ideals: string;

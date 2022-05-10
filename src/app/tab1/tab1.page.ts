@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Character} from '../../classes/character';
 
 @Component({
   selector: 'app-tab1',
@@ -7,7 +8,14 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  characterList: Character[] = [] ;
+
+  constructor() {
+
+    console.log(this.characterList.length);
+
+
+  }
 
 
   makeSmall(word: string): string {
