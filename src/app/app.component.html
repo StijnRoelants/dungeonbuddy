@@ -7,10 +7,18 @@
     </ion-header>
     <ion-content>
       <ion-list lines="full" (click)='menu.close()'>
-        <ion-item [routerLink]="['login']"><ion-icon slot="start" name="planet"></ion-icon>User</ion-item>
+        <ion-item [routerLink]="['login']">
+          <ion-avatar slot="start" >
+            <img alt="userAvatar" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+          </ion-avatar>
+          <ion-label>
+            Username
+          </ion-label>
+
+        </ion-item>
         <ion-item-divider ></ion-item-divider>
         <ion-item [routerLink]="['characters']"><ion-icon slot="start" name="people"></ion-icon> Characters</ion-item>
-        <ion-item [routerLink]="['createchar']"><ion-icon slot="start" name="person"></ion-icon>Create new character</ion-item>
+        <ion-item [routerLink]="['createchar']"><ion-icon slot="start" name="person-add"></ion-icon>Create new character</ion-item>
         <ion-item [routerLink]="['faq']"><ion-icon slot="start" name="help"></ion-icon>FAQ</ion-item>
       </ion-list>
     </ion-content>
