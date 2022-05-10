@@ -4,6 +4,7 @@ import {Skills} from './skills';
 
 export interface Character {
   id: string;
+  userID: string;
   name: string;
   playerClass: string;
   hitDie: number;
@@ -14,6 +15,7 @@ export interface Character {
   race: Race;
   inspiration: number;
   passiveWisdom: number;
+  proficiencyBonus: number;
   strength: number;
   strengthModif: number;
   dexterity: number;

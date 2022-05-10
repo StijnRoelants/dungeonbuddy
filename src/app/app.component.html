@@ -1,3 +1,19 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu #menu side="start" menuId="menu" contentId="main">
+    <ion-header>
+      <ion-toolbar color="tertiary">
+        <ion-title >DungeonBuddy</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list lines="full" (click)='menu.close()'>
+        <ion-item [routerLink]="['login']"><ion-icon slot="start" name="planet"></ion-icon>User</ion-item>
+        <ion-item-divider ></ion-item-divider>
+        <ion-item [routerLink]="['characters']"><ion-icon slot="start" name="people"></ion-icon> Characters</ion-item>
+        <ion-item [routerLink]="['createchar']"><ion-icon slot="start" name="person"></ion-icon>Create new character</ion-item>
+        <ion-item [routerLink]="['faq']"><ion-icon slot="start" name="help"></ion-icon>FAQ</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>
