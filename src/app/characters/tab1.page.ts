@@ -31,7 +31,7 @@ export class Tab1Page {
     intelligenceModif: 0,
     passiveWisdom: 0,
     personalTraits: '',
-    playerClass: '',
+    playerClass: 'Bard',
     proficiencyBonus: 0,
     race: this.testrace,
     skills: undefined,
