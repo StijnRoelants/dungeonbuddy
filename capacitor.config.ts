@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'eindproject_dungeonbuddy',
+  appId: 'io.ionic.dungeonbuddy',
+  appName: 'DungeonBuddy',
   webDir: 'www',
   bundledWebRuntime: false
 };
