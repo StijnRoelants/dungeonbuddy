@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IonRouterOutlet } from '@ionic/angular';
 import {Character} from '../../classes/character';
 import { RaceType } from '../../classes/race';
 import {PlayerClass} from '../../classes/classes';
@@ -27,7 +28,7 @@ export class CreatecharPage implements OnInit {
   bgList = Object.values(Backgrounds) as Backgrounds[];
   alignmentList = Object.values(Alignments) as Alignments[];
 
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet) { }
 
   ngOnInit() {
 
@@ -50,6 +51,7 @@ export class CreatecharPage implements OnInit {
     const modal = await this.modalController.create({
       component: InfoModalComponent,
       componentProps: {passingType: type},
+      presentingElement: this.routerOutlet.nativeEl,
       canDismiss: true,
     });
     return await modal.present();
