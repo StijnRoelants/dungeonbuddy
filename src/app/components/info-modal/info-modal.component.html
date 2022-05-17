@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons slot='start'>
+      <ion-button (click)='dismissModal()'>Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="full">
+    <div class="ion-margin" [innerHTML]="message"></div>
+  </ion-item>
+
+</ion-content>

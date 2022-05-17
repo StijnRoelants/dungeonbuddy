@@ -1,4 +1,4 @@
-export enum PlayerClassList {
+export enum PlayerClass {
   barbarian = 'Barbarian',
   bard = 'Bard',
   cleric = 'Cleric',

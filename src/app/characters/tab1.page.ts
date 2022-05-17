@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Character} from '../../classes/character';
-import {Race} from '../../classes/race';
+import {Race, RaceType} from '../../classes/race';
 
 @Component({
   selector: 'app-tab1',
@@ -8,8 +8,10 @@ import {Race} from '../../classes/race';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  raceList = Object.values(RaceType) as RaceType[];
+
   testrace: Race = {
-    id: '55xc', languages: ['Common','Elvish'], name: 'Halfling', size: 'small', speed: 25, traits: ['lightfoot']
+    id: '55xc', languages: ['Common','Elvish'], name: this.raceList[6], size: 'small', speed: 25, traits: ['lightfoot']
   };
   char: Character = {
     alignment: 'Chaotic-Evil',

@@ -1,5 +1,4 @@
-export enum Races {
-  // @ts-ignore
+export enum RaceType {
   dragonborn = 'Dragonborn',
   dwarf = 'Dwarf',
   elf = 'Elf',
@@ -10,14 +9,24 @@ export enum Races {
   human = 'Human',
 }
 
-export class Race {
+export interface IRace {
   id: string;
-  name: string;
+  name: RaceType;
+  speed: number;
+  size: string;
+  languages: string[];
+  traits: string[];
+}
+
+export class Race implements IRace{
+  id: string;
+  name: RaceType;
   speed: number;
   size: string;
   languages: string[];
   traits: string[];
 
-  constructor() {
+  constructor(race: IRace) {
+    Object.assign(this, race);
   }
 }

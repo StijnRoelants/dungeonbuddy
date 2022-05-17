@@ -18,4 +18,118 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-item-divider sticky="true"><ion-label slot="start" class="ion-margin" color="tertiary">Basics</ion-label><ion-icon (click)="presentModal('BasicInfo')" color="tertiary" class="ion-margin" slot="end" name="information-circle"></ion-icon></ion-item-divider>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Character name</ion-label>
+    <ion-input type="text" class="ion-margin-top" [(ngModel)]="charName" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item >
+    <ion-label position="floating">Race</ion-label>
+      <ion-select [(ngModel)]="selectedRace" [required]="true" >
+        <ion-select-option  *ngFor='let r of raceList' [value]="r">{{r}}</ion-select-option>
+      </ion-select>
+  </ion-item>
+  <ion-item >
+    <ion-label position="floating">Class</ion-label>
+    <ion-select [(ngModel)]="selectedClass" [required]="true" >
+      <ion-select-option  *ngFor='let c of classList' [value]="c">{{c}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Background</ion-label>
+    <ion-select [(ngModel)]="selectedBG" [required]="true" >
+      <ion-select-option  *ngFor='let b of bgList' [value]="b">{{b}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Alignment</ion-label>
+    <ion-select [(ngModel)]="selectedAlign" [required]="true" >
+      <ion-select-option  *ngFor='let a of alignmentList' [value]="a">{{a}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">XP</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="charXP" [required]="true"></ion-input>
+  </ion-item>
+
+  <ion-item-divider sticky="true"><ion-label slot="start" class="ion-margin" color="tertiary">Abilities</ion-label><ion-icon (click)="presentModal('AbilitieInfo')" color="tertiary" class="ion-margin" slot="end" name="information-circle"></ion-icon></ion-item-divider>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Strength</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.strength" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Strength modifier</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.strengthModif" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Dexterity</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.dexterity" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Dexterity modifier</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.dexterityModif" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Constitution</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.constitution" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Constitution modifier</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.constitutionModif" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Intelligence</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.intelligence" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Intelligence modifier</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.intelligenceModif" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Wisdom</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.wisdom" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Wisdom modifier</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.wisdomModif" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Charisma</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.charisma" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Charisma modifier</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.charismaModif" [required]="true"></ion-input>
+  </ion-item>
+
+    <ion-item-divider sticky="true"><ion-label slot="start" class="ion-margin" color="tertiary">Saving Throws</ion-label><ion-icon (click)="presentModal('stInfo')" color="tertiary" class="ion-margin" slot="end" name="information-circle"></ion-icon></ion-item-divider>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Strength</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stStrength" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Dexterity</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stDexterity" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Constitution</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stConstitution" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Intelligence</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stIntelligence" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Wisdom</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stWisdom" [required]="true"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating">Charisma</ion-label>
+    <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stCharisma" [required]="true"></ion-input>
+  </ion-item>
+
+
 </ion-content>

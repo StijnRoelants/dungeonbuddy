@@ -2,7 +2,7 @@ import {Weapon} from './weapon';
 import {Race} from './race';
 import {Skills} from './skills';
 
-export interface Character {
+export interface ICharacter {
   id: string;
   userID: string;
   name: string;
@@ -42,4 +42,45 @@ export interface Character {
   bonds: string;
   flaws: string;
   featuresAndTraits: string[];
+}
+
+export class Character implements ICharacter {
+  alignment: string;
+  background: string;
+  bonds: string;
+  charisma: number;
+  charismaModif: number;
+  constitution: number;
+  constitutionModif: number;
+  dexterity: number;
+  dexterityModif: number;
+  featuresAndTraits: string[];
+  flaws: string;
+  gold: number;
+  hitDie: number;
+  id: string;
+  ideals: string;
+  inspiration: number;
+  intelligence: number;
+  intelligenceModif: number;
+  name: string;
+  passiveWisdom: number;
+  personalTraits: string;
+  playerClass: string;
+  proficiencyBonus: number;
+  race: Race;
+  skills: Skills;
+  stCharisma: number;
+  stConstitution: number;
+  stDexterity: number;
+  stIntelligence: number;
+  stStrength: number;
+  stWisdom: number;
+  strength: number;
+  strengthModif: number;
+  userID: string;
+  wisdom: number;
+  wisdomModif: number;
+  xp: number;
+
 }
