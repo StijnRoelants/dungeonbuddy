@@ -7,6 +7,7 @@ import {ModalController} from '@ionic/angular';
 import {InfoModalComponent} from '../components/info-modal/info-modal.component';
 import {Backgrounds} from '../../classes/backgrounds';
 import {Alignments} from '../../classes/alignment';
+import {Skills} from '../../classes/skills';
 
 @Component({
   selector: 'app-createchar',
@@ -16,6 +17,7 @@ import {Alignments} from '../../classes/alignment';
 export class CreatecharPage implements OnInit {
 
   newCharacter: Character = new Character();
+  newSkills: Skills = new Skills();
   charName: string;
   charBackground: string;
   charXP = 0;
@@ -37,6 +39,7 @@ export class CreatecharPage implements OnInit {
   ionViewWillEnter() {
 
     this.newCharacter = new Character();
+    this.newSkills = new Skills();
     this.charName = '';
     this.charBackground = '';
     this.charXP = 0;

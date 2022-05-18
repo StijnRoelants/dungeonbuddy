@@ -42,10 +42,12 @@ export interface ICharacter {
   bonds: string;
   flaws: string;
   featuresAndTraits: string[];
+  armorClass: number;
 }
 
 export class Character implements ICharacter {
   alignment: string;
+  armorClass: number;
   background: string;
   bonds: string;
   charisma: number;

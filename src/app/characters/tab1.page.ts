@@ -15,6 +15,7 @@ export class Tab1Page {
   };
   char: Character = {
     alignment: 'Chaotic-Evil',
+    armorClass: 13,
     background: 'Test',
     bonds: 'Test',
     charisma: 0,
