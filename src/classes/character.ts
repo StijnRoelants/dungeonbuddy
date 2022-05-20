@@ -5,6 +5,7 @@ import {Skills} from './skills';
 export interface ICharacter {
   id: string;
   userID: string;
+  picture?: string;
   name: string;
   playerClass: string;
   hitDie: number;
@@ -84,5 +85,6 @@ export class Character implements ICharacter {
   wisdom: number;
   wisdomModif: number;
   xp: number;
+  picture?: string;
 
 }

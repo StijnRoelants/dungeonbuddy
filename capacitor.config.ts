@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.dungeonbuddy',
+  appId: 'com.roelants.stijn.dungeonbuddy',
   appName: 'DungeonBuddy',
   webDir: 'www',
   bundledWebRuntime: false

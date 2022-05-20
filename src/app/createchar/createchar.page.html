@@ -28,6 +28,10 @@
     </ion-item-divider>
 
     <ion-item lines="full">
+      <ion-avatar slot="start">
+        <img *ngIf="charAvatar.avatar === undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"/>
+        <img *ngIf="charAvatar.avatar !== undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" [src]="charAvatar.avatar.dataUrl || charAvatar.avatar.webPath"/>
+      </ion-avatar>
       <ion-label position="floating">Character name</ion-label>
       <ion-input type="text" class="ion-margin-top" [(ngModel)]="charName" [required]="true"></ion-input>
     </ion-item>

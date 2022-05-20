@@ -19,6 +19,9 @@
   </ion-header>
   <ion-list lines="inset" *ngFor="let char of characterList">
     <ion-item lines="full">
+      <ion-avatar slot="start">
+        <img alt="avatar" src="data:image/png;base64,{{char.picture}}" />
+      </ion-avatar>
       <ion-label >
         <h2>{{char.name}}</h2>
       <p >{{char.race.name}} | {{char.playerClass}}</p>

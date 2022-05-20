@@ -8,6 +8,7 @@ import {InfoModalComponent} from '../components/info-modal/info-modal.component'
 import {Backgrounds} from '../../classes/backgrounds';
 import {Alignments} from '../../classes/alignment';
 import {Skills} from '../../classes/skills';
+import {CharAvatarService} from '../services/char-avatar.service';
 
 @Component({
   selector: 'app-createchar',
@@ -29,12 +30,11 @@ export class CreatecharPage implements OnInit {
   classList = Object.values(PlayerClass) as PlayerClass[];
   bgList = Object.values(Backgrounds) as Backgrounds[];
   alignmentList = Object.values(Alignments) as Alignments[];
-  returnValues: number[] = [];
 
-  constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet) { }
+  constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet,
+              public charAvatar: CharAvatarService) { }
 
   ngOnInit() {
-
   }
 
   ionViewWillEnter() {
@@ -48,7 +48,8 @@ export class CreatecharPage implements OnInit {
     this.selectedClass = '';
     this.selectedBG = '';
     this.selectedAlign = '';
-
+    delete(this.charAvatar.avatar);
+    console.log(this.charAvatar.avatar);
   }
 
   generateRandomAbilities() {
@@ -99,6 +100,5 @@ export class CreatecharPage implements OnInit {
     return await modal.present();
 
   }
-
 
 }
