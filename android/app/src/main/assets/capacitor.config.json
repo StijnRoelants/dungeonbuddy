@@ -1,0 +1,6 @@
+{
+	"appId": "com.roelants.stijn.dungeonbuddy",
+	"appName": "DungeonBuddy",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
