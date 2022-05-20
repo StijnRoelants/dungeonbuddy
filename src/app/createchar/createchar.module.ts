@@ -8,6 +8,7 @@ import { CreatecharPageRoutingModule } from './createchar-routing.module';
 
 import { CreatecharPage } from './createchar.page';
 
+
 @NgModule({
   imports: [
     CommonModule,

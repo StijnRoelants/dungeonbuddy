@@ -29,6 +29,7 @@ export class CreatecharPage implements OnInit {
   classList = Object.values(PlayerClass) as PlayerClass[];
   bgList = Object.values(Backgrounds) as Backgrounds[];
   alignmentList = Object.values(Alignments) as Alignments[];
+  returnValues: number[] = [];
 
   constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet) { }
 
@@ -49,6 +50,44 @@ export class CreatecharPage implements OnInit {
     this.selectedAlign = '';
 
   }
+
+  generateRandomAbilities() {
+
+    const abilityScore = this.generateRandoms(6,4);
+
+    this.newCharacter.strength = abilityScore[0];
+    this.newCharacter.dexterity= abilityScore[1];
+    this.newCharacter.constitution = abilityScore[2];
+    this.newCharacter.intelligence = abilityScore[3];
+    this.newCharacter.wisdom = abilityScore[4];
+    this.newCharacter.charisma = abilityScore[5];
+    //console.log(abilityScore);
+    abilityScore.length = 0;
+  }
+
+  generateRandoms(i: number, x: number): number[] {
+
+    const rolls: number[]  = [];
+    const abilityScore: number [] = [];
+
+    for ( i = 0; i < 6; i++){
+      for ( x = 0; x < 4; x++) {
+        const score = Math.floor(Math.random() * 6) + 1;
+        rolls.push(score);
+      }
+      // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+      rolls.sort(function(y,z) {
+        return z-y;
+      });
+      //console.log(rolls);
+      const finalSum = rolls[0] + rolls[1] + rolls[2];
+      rolls.length = 0;
+      abilityScore.push(finalSum);
+    }
+
+    return abilityScore;
+  }
+
 
   async presentModal(type: string) {
     const modal = await this.modalController.create({
