@@ -9,6 +9,8 @@ import {Backgrounds} from '../../classes/backgrounds';
 import {Alignments} from '../../classes/alignment';
 import {Skills} from '../../classes/skills';
 import {CharAvatarService} from '../services/char-avatar.service';
+import {DatabaseService} from '../services/database.service';
+import {AppRoutingModule} from '../app-routing.module';
 
 @Component({
   selector: 'app-createchar',
@@ -21,7 +23,6 @@ export class CreatecharPage implements OnInit {
   newSkills: Skills = new Skills();
   charName: string;
   charBackground: string;
-  charXP = 0;
   selectedRace: string;
   selectedClass: string;
   selectedBG: string;
@@ -32,7 +33,7 @@ export class CreatecharPage implements OnInit {
   alignmentList = Object.values(Alignments) as Alignments[];
 
   constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet,
-              public charAvatar: CharAvatarService) { }
+              public charAvatar: CharAvatarService, public dbService: DatabaseService, public approuter: AppRoutingModule) { }
 
   ngOnInit() {
   }
@@ -43,13 +44,12 @@ export class CreatecharPage implements OnInit {
     this.newSkills = new Skills();
     this.charName = '';
     this.charBackground = '';
-    this.charXP = 0;
     this.selectedRace =  '';
     this.selectedClass = '';
     this.selectedBG = '';
     this.selectedAlign = '';
     delete(this.charAvatar.avatar);
-    console.log(this.charAvatar.avatar);
+    console.log(this.newCharacter);
   }
 
   generateRandomAbilities() {
@@ -98,7 +98,24 @@ export class CreatecharPage implements OnInit {
       canDismiss: true,
     });
     return await modal.present();
+  }
 
+  async createCharacter(): Promise<void> {
+    this.newCharacter.playerClass = this.selectedClass;
+    this.newCharacter.race = this.selectedRace;
+    this.newCharacter.background = this.selectedBG;
+    this.newCharacter.alignment = this.selectedAlign;
+    this.newCharacter.name = this.charName;
+    this.newCharacter.picture = this.charAvatar.avatar.base64String;
+    this.newCharacter.skills = this.newSkills;
+    this.newCharacter.userID = '';
+    console.log(this.newCharacter);
+    await this.dbService.createCharacter(this.newCharacter);
+    this.approuter.openCharacterPage();
+  }
+
+  checkIfReadyForRandom(): boolean {
+    return (this.selectedAlign === '' || this.selectedBG === '' || this.selectedRace === '' || this.selectedClass === '');
   }
 
 }

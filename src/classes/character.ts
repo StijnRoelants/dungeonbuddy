@@ -1,9 +1,8 @@
 import {Weapon} from './weapon';
-import {Race} from './race';
 import {Skills} from './skills';
 
 export interface ICharacter {
-  id: string;
+  key?: string;
   userID: string;
   picture?: string;
   name: string;
@@ -13,8 +12,8 @@ export interface ICharacter {
   background: string;
   xp: number;
   weapons?: Weapon[];
-  race: Race;
-  inspiration: number;
+  race: string;
+  inspiration: boolean;
   passiveWisdom: number;
   proficiencyBonus: number;
   strength: number;
@@ -38,55 +37,63 @@ export interface ICharacter {
   skills: Skills;
   equipment?: string[];
   gold: number;
-  personalTraits: string;
-  ideals: string;
-  bonds: string;
-  flaws: string;
-  featuresAndTraits: string[];
+  personalTraits?: string;
+  ideals?: string;
+  bonds?: string;
+  flaws?: string;
+  featuresAndTraits?: string[];
   armorClass: number;
   level: number;
+  hitPoints: number;
+  maxHitPoints: number;
 }
 
 export class Character implements ICharacter {
   alignment: string;
-  armorClass: number;
+  armorClass = 0;
   background: string;
-  bonds: string;
-  charisma: number;
-  charismaModif: number;
-  constitution: number;
-  constitutionModif: number;
-  dexterity: number;
-  dexterityModif: number;
-  featuresAndTraits: string[];
-  flaws: string;
-  gold: number;
-  hitDie: number;
-  id: string;
-  ideals: string;
-  inspiration: number;
-  intelligence: number;
-  intelligenceModif: number;
+  bonds?: string;
+  charisma = 0;
+  charismaModif = 0;
+  constitution = 0;
+  constitutionModif = 0;
+  dexterity = 0;
+  dexterityModif = 0;
+  featuresAndTraits?: string[];
+  flaws?: string;
+  gold = 0;
+  hitDie = 0;
+  hitPoints = 0;
+  maxHitPoints = 0;
+  key?: string;
+  ideals?: string;
+  inspiration = false;
+  intelligence = 0;
+  intelligenceModif = 0;
   name: string;
-  passiveWisdom: number;
-  personalTraits: string;
+  passiveWisdom = 0;
+  personalTraits?: string;
   playerClass: string;
-  proficiencyBonus: number;
-  race: Race;
+  proficiencyBonus = 0;
+  race: string;
   skills: Skills;
-  stCharisma: number;
-  stConstitution: number;
-  stDexterity: number;
-  stIntelligence: number;
-  stStrength: number;
-  stWisdom: number;
-  strength: number;
-  strengthModif: number;
+  stCharisma = 0;
+  stConstitution = 0;
+  stDexterity = 0;
+  stIntelligence = 0;
+  stStrength = 0;
+  stWisdom = 0;
+  strength = 0;
+  strengthModif = 0;
   userID: string;
-  wisdom: number;
-  wisdomModif: number;
-  xp: number;
-  level: number;
+  wisdom = 0;
+  wisdomModif = 0;
+  xp = 0;
+  level = 1;
   picture?: string;
+
+  constructor() {
+
+  }
 
 }

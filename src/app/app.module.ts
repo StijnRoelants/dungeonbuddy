@@ -18,7 +18,12 @@ import {getAuth, provideAuth} from '@angular/fire/auth';
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FontAwesomeModule,
   provideFirebaseApp( () => initializeApp(environment.firebaseConfig)),
-  provideAuth(() => getAuth())
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      enableIndexedDbPersistence(firestore);
+      return firestore;
+    }),
+    provideAuth(() => getAuth())
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
