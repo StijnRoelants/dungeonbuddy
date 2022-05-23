@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Repos\\Mobile Applications\\project\\eindproject_dungeonbuddy\\key.jks')
+            storePassword 'stijnr'
+            keyAlias 'dungeonbuddy'
+            keyPassword 'stijnr'
+        }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.roelants.stijn.dungeonbuddy"
@@ -19,7 +27,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+          signingConfig signingConfigs.debug
         }
+      debug {
+        signingConfig signingConfigs.debug
+      }
     }
 }
 

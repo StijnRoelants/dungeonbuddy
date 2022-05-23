@@ -24,7 +24,7 @@
       </ion-avatar>
       <ion-label >
         <h2>{{char.name}}</h2>
-      <p >{{char.race.name}} | {{char.playerClass}}</p>
+      <p>Level {{char.level}} {{char.race.name}} | {{char.playerClass}}</p>
       </ion-label>
     </ion-item>
     <ion-item *ngIf="characterList.length <= 0 || !characterList ">

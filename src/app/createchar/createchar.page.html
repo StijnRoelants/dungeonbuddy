@@ -60,6 +60,10 @@
       </ion-select>
     </ion-item>
     <ion-item lines="full">
+      <ion-label position="floating">Level</ion-label>
+      <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.level" [required]="true"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
       <ion-label position="floating">XP</ion-label>
       <ion-input type="number" class="ion-margin-top" [(ngModel)]="charXP" [required]="true"></ion-input>
     </ion-item>
@@ -381,7 +385,5 @@
       <ion-label position="floating">Flaws</ion-label>
       <ion-textarea cols="10" rows="5" class="ion-margin-top" [(ngModel)]="newCharacter.flaws" [required]="false"></ion-textarea>
     </ion-item>
-
   </ion-grid>
-
 </ion-content>

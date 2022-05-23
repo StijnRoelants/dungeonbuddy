@@ -49,6 +49,7 @@ export class Tab1Page {
     userID: 'xcxcxc',
     wisdom: 0,
     wisdomModif: 0,
+    level: 2,
     xp: 0,
     name: 'Lindal',
     id: 'UGVHGVHGVHGV',

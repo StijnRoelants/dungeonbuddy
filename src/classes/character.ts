@@ -44,6 +44,7 @@ export interface ICharacter {
   flaws: string;
   featuresAndTraits: string[];
   armorClass: number;
+  level: number;
 }
 
 export class Character implements ICharacter {
@@ -85,6 +86,7 @@ export class Character implements ICharacter {
   wisdom: number;
   wisdomModif: number;
   xp: number;
+  level: number;
   picture?: string;
 
 }
