@@ -18,7 +18,7 @@ export class DatabaseService {
 
     await addDoc<Character>(
       this.getCollectionRef<Character>('characters'),
-      createdCharacter
+      JSON.parse(JSON.stringify(createdCharacter))
     );
   }
 
