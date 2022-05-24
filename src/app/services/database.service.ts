@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import {AuthService} from './auth.service';
-import {collection, Firestore, CollectionReference, DocumentReference, doc, addDoc} from '@angular/fire/firestore';
+import {
+  collection,
+  Firestore,
+  CollectionReference,
+  DocumentReference,
+  doc,
+  addDoc,
+  query, getDocs, orderBy, where
+} from '@angular/fire/firestore';
 import {Character} from '../../classes/character';
 
 @Injectable({
@@ -14,12 +22,26 @@ export class DatabaseService {
     const createdCharacter: Character = newCharacter;
     createdCharacter.userID = this.authService.getUserUID();
 
-    console.log(createdCharacter);
+    //console.log(createdCharacter);
 
     await addDoc<Character>(
       this.getCollectionRef<Character>('characters'),
       JSON.parse(JSON.stringify(createdCharacter))
     );
+  }
+
+  async getCharactersByUserID(): Promise<Character[]> {
+    const result = await getDocs<Character>(
+      query<Character>(
+        this.getCollectionRef('characters'),
+        where('userID', '==', this.authService.getUserUID())
+      )
+    );
+    return result.docs.map(x => ({...x.data(), key: x.id}));
+  }
+
+  async getCharacterByID(observer: ((characters: Character[]) => void )): Promise<void> {
+
   }
 
 
