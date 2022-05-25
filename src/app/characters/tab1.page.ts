@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {Character} from '../../classes/character';
-import {Race, RaceType} from '../../classes/race';
 import {DatabaseService} from '../services/database.service';
 
 @Component({
@@ -19,10 +18,6 @@ export class Tab1Page {
     console.log(this.characterList);
   }
 
-
-  makeSmall(word: string): string {
-    return word.toLowerCase();
-  }
 }
 
 

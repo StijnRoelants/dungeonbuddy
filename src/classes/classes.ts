@@ -7,7 +7,8 @@ export enum PlayerClass {
   monk = 'Monk',
   paladin = 'Paladin',
   rogue = 'Rogue',
-  sorcerer = 'sorcerer',
+  ranger = 'Ranger',
+  sorcerer = 'Sorcerer',
   warlock = 'Warlock',
   wizard = 'Wizard'
 }

@@ -46,6 +46,7 @@ export interface ICharacter {
   level: number;
   hitPoints: number;
   maxHitPoints: number;
+  speed: number;
 }
 
 export class Character implements ICharacter {
@@ -91,9 +92,11 @@ export class Character implements ICharacter {
   xp = 0;
   level = 1;
   picture?: string;
+  speed = 0;
 
   constructor() {
 
   }
+
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonRouterOutlet } from '@ionic/angular';
-import {Character} from '../../classes/character';
+import { Character } from '../../classes/character';
 import { RaceType } from '../../classes/race';
 import {PlayerClass} from '../../classes/classes';
 import {ModalController} from '@ionic/angular';
@@ -11,6 +11,8 @@ import {Skills} from '../../classes/skills';
 import {CharAvatarService} from '../services/char-avatar.service';
 import {DatabaseService} from '../services/database.service';
 import {AppRoutingModule} from '../app-routing.module';
+import {ApiService} from '../services/api.service';
+import {CharacterService} from '../services/character.service';
 
 @Component({
   selector: 'app-createchar',
@@ -33,7 +35,8 @@ export class CreatecharPage implements OnInit {
   alignmentList = Object.values(Alignments) as Alignments[];
 
   constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet,
-              public charAvatar: CharAvatarService, public dbService: DatabaseService, public approuter: AppRoutingModule) { }
+              public charAvatar: CharAvatarService, public dbService: DatabaseService, public approuter: AppRoutingModule,
+              public apiService: ApiService, public charService: CharacterService) { }
 
   ngOnInit() {
   }
@@ -52,18 +55,17 @@ export class CreatecharPage implements OnInit {
     console.log(this.newCharacter);
   }
 
-  generateRandomAbilities() {
+  async generateRandomAbilities(): Promise<void>  {
 
+    await this.clearAll();
     const abilityScore = this.generateRandoms(6,4);
-
-    this.newCharacter.strength = abilityScore[0];
-    this.newCharacter.dexterity= abilityScore[1];
-    this.newCharacter.constitution = abilityScore[2];
-    this.newCharacter.intelligence = abilityScore[3];
-    this.newCharacter.wisdom = abilityScore[4];
-    this.newCharacter.charisma = abilityScore[5];
-    //console.log(abilityScore);
+    console.log(abilityScore);
+    this.implementAbilities(abilityScore);
+    if ( await this.getRaceData()){
+      await this.implmentModifs();
+    }
     abilityScore.length = 0;
+    console.log(this.newCharacter);
   }
 
   generateRandoms(i: number, x: number): number[] {
@@ -115,7 +117,129 @@ export class CreatecharPage implements OnInit {
   }
 
   checkIfReadyForRandom(): boolean {
-    return (this.selectedAlign === '' || this.selectedBG === '' || this.selectedRace === '' || this.selectedClass === '');
+    return (this.selectedAlign === '' || this.selectedBG === '' || this.selectedClass === '' || this.selectedRace === '');
   }
 
+  private async getRaceData(): Promise<boolean> {
+    const race = await this.apiService.getRace(this.selectedRace.toLowerCase());
+
+    await race.subscribe(x => {
+      this.newCharacter.speed = x.speed;
+      for (const m of x.ability_bonuses) {
+          switch (m.ability_score.name) {
+            case 'STR': {
+              this.newCharacter.strength += m.bonus;
+              break;
+            }
+            case 'DEX': {
+              this.newCharacter.dexterity += m.bonus;
+              break;
+            }
+            case 'CON': {
+              this.newCharacter.constitution += m.bonus;
+              break;
+            }
+            case 'INT': {
+              this.newCharacter.intelligence += m.bonus;
+              break;
+            }
+            case 'WIS': {
+              this.newCharacter.wisdom += m.bonus;
+              break;
+            }
+            case 'CHA': {
+              this.newCharacter.charisma += m.bonus;
+              break;
+            }
+          }
+        }
+    });
+    race.subscribe().unsubscribe();
+    return true;
+  }
+
+  private clearAll(): void {
+    this.newCharacter.strengthModif = 0;
+    this.newCharacter.strength = 0;
+    this.newCharacter.wisdomModif = 0;
+    this.newCharacter.wisdom = 0;
+    this.newCharacter.charismaModif = 0;
+    this.newCharacter.charisma = 0;
+    this.newCharacter.intelligenceModif = 0;
+    this.newCharacter.intelligence = 0;
+    this.newCharacter.dexterityModif = 0;
+    this.newCharacter.dexterity = 0;
+    this.newCharacter.constitutionModif = 0;
+    this.newCharacter.constitution= 0;
+  }
+
+  private checkForModifs(value: number): number {
+    let modifValue = 0;
+    switch (true) {
+      case value <= 3: {
+        modifValue = -4;
+        break;
+      }
+      case value <= 5: {
+        modifValue = -3;
+        break;
+      }
+      case value <= 7: {
+        modifValue = -2;
+        break;
+      }
+      case value <= 9: {
+        modifValue = -1;
+        break;
+      }
+      case value <= 11: {
+        modifValue = 0;
+        break;
+      }
+      case value <= 13: {
+        modifValue = 1;
+        break;
+      }
+      case value <= 15: {
+        modifValue = 2;
+        break;
+      }
+      case value <= 17: {
+        modifValue = 3;
+        break;
+      }
+      case value <= 19: {
+        modifValue = 4;
+        break;
+      }
+      case value <= 21: {
+        modifValue = 5;
+        break;
+      }
+      case value <= 23: {
+        modifValue = 6;
+        break;
+      }
+    }
+    console.log(value + '-' + modifValue);
+    return modifValue;
+  }
+
+  private implementAbilities(abilityScore: number[]): void {
+    this.newCharacter.strength += abilityScore[0];
+    this.newCharacter.dexterity += abilityScore[1];
+    this.newCharacter.constitution += abilityScore[2];
+    this.newCharacter.intelligence += abilityScore[3];
+    this.newCharacter.wisdom += abilityScore[4];
+    this.newCharacter.charisma += abilityScore[5];
+  }
+
+  private implmentModifs(): void {
+    this.newCharacter.strengthModif = this.checkForModifs(this.newCharacter.strength);
+    this.newCharacter.dexterityModif = this.checkForModifs(this.newCharacter.dexterity);
+    this.newCharacter.constitutionModif = this.checkForModifs(this.newCharacter.constitution);
+    this.newCharacter.intelligenceModif = this.checkForModifs(this.newCharacter.intelligence);
+    this.newCharacter.wisdomModif = this.checkForModifs(this.newCharacter.wisdom);
+    this.newCharacter.charismaModif = this.checkForModifs(this.newCharacter.charisma);
+  }
 }

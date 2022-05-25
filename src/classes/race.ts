@@ -10,23 +10,58 @@ export enum RaceType {
 }
 
 export interface IRace {
-  id: string;
-  name: RaceType;
+  index: string;
+  name: string;
+  url: string;
   speed: number;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  ability_bonuses: [{
+    bonus: number;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    ability_score: {
+      index: string;
+      name: string;
+      url: string;
+    };
+  }];
+  alignment: string;
+  age: string;
   size: string;
-  languages: string[];
-  traits: string[];
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  size_description: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  starting_proficiencies: [{
+    index: string;
+    name: string;
+    url: string;
+  }];
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  starting_proficiency_options: {
+    choose: number;
+    type: string;
+    from: [{
+      index: string;
+      name: string;
+      url: string;
+    }];
+  };
+  languages: [{
+    index: string;
+    name: string;
+    url: string;
+  }];
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  language_desc: string;
+  traits: [{
+    index: string;
+    name: string;
+    url: string;
+  }];
+  subraces: [{
+    index: string;
+    name: string;
+    url: string;
+  }];
 }
 
-export class Race implements IRace{
-  id: string;
-  name: RaceType;
-  speed: number;
-  size: string;
-  languages: string[];
-  traits: string[];
 
-  constructor(race: IRace) {
-    Object.assign(this, race);
-  }
-}
