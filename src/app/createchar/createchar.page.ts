@@ -57,13 +57,12 @@ export class CreatecharPage implements OnInit {
 
   async generateRandomAbilities(): Promise<void>  {
 
-    await this.clearAll();
+    this.clearAll();
     const abilityScore = this.generateRandoms(6,4);
     console.log(abilityScore);
     this.implementAbilities(abilityScore);
-    if ( await this.getRaceData()){
-      await this.implmentModifs();
-    }
+    await this.getRaceData();
+
     abilityScore.length = 0;
     console.log(this.newCharacter);
   }
@@ -91,6 +90,14 @@ export class CreatecharPage implements OnInit {
     return abilityScore;
   }
 
+  implementModifs(): void {
+    this.newCharacter.strengthModif = this.checkForModifs(this.newCharacter.strength);
+    this.newCharacter.dexterityModif = this.checkForModifs(this.newCharacter.dexterity);
+    this.newCharacter.constitutionModif = this.checkForModifs(this.newCharacter.constitution);
+    this.newCharacter.intelligenceModif = this.checkForModifs(this.newCharacter.intelligence);
+    this.newCharacter.wisdomModif = this.checkForModifs(this.newCharacter.wisdom);
+    this.newCharacter.charismaModif = this.checkForModifs(this.newCharacter.charisma);
+  }
 
   async presentModal(type: string) {
     const modal = await this.modalController.create({
@@ -234,12 +241,5 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.charisma += abilityScore[5];
   }
 
-  private implmentModifs(): void {
-    this.newCharacter.strengthModif = this.checkForModifs(this.newCharacter.strength);
-    this.newCharacter.dexterityModif = this.checkForModifs(this.newCharacter.dexterity);
-    this.newCharacter.constitutionModif = this.checkForModifs(this.newCharacter.constitution);
-    this.newCharacter.intelligenceModif = this.checkForModifs(this.newCharacter.intelligence);
-    this.newCharacter.wisdomModif = this.checkForModifs(this.newCharacter.wisdom);
-    this.newCharacter.charismaModif = this.checkForModifs(this.newCharacter.charisma);
-  }
+
 }
