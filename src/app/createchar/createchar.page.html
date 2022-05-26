@@ -79,8 +79,8 @@
         <i *ngIf="checkIfReadyForRandom() === false" class="fa-solid fa-dice"></i><p *ngIf="checkIfReadyForRandom() === false" class="ion-margin">Randomise</p>
         <p *ngIf="checkIfReadyForRandom() === true" class="ion-margin, size: 2em">Fill in basics to randomise</p>
       </ion-button>
-      <ion-button (click)="implementModifs()" size="large" expand="full" color="tertiary">
-        <i *ngIf="checkIfReadyForRandom() === false" class="fa-solid fa-dice"></i><p class="ion-margin">Modifiers</p>
+      <ion-button (click)="implementModifs()" size="large" expand="full" color="tertiary" [disabled]="!this.canModif">
+        <i class="fa-solid fa-dice"></i><p class="ion-margin">Modifiers</p>
       </ion-button>
 
 

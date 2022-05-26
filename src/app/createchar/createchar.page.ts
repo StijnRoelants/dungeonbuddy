@@ -33,6 +33,7 @@ export class CreatecharPage implements OnInit {
   classList = Object.values(PlayerClass) as PlayerClass[];
   bgList = Object.values(Backgrounds) as Backgrounds[];
   alignmentList = Object.values(Alignments) as Alignments[];
+  canModif = false;
 
   constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet,
               public charAvatar: CharAvatarService, public dbService: DatabaseService, public approuter: AppRoutingModule,
@@ -52,19 +53,20 @@ export class CreatecharPage implements OnInit {
     this.selectedBG = '';
     this.selectedAlign = '';
     delete(this.charAvatar.avatar);
-    console.log(this.newCharacter);
+    //console.log(this.newCharacter);
   }
 
   async generateRandomAbilities(): Promise<void>  {
+    let check = false;
 
     this.clearAll();
     const abilityScore = this.generateRandoms(6,4);
     console.log(abilityScore);
     this.implementAbilities(abilityScore);
-    await this.getRaceData();
-
+    check = await this.getRaceData();
+    await this.getClassData();
     abilityScore.length = 0;
-    console.log(this.newCharacter);
+    this.canModif = true;
   }
 
   generateRandoms(i: number, x: number): number[] {
@@ -97,6 +99,25 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.intelligenceModif = this.checkForModifs(this.newCharacter.intelligence);
     this.newCharacter.wisdomModif = this.checkForModifs(this.newCharacter.wisdom);
     this.newCharacter.charismaModif = this.checkForModifs(this.newCharacter.charisma);
+
+    this.newCharacter.stStrength += this.newCharacter.strengthModif;
+    this.newCharacter.stDexterity += this.newCharacter.dexterityModif;
+    this.newCharacter.stConstitution += this.newCharacter.constitutionModif;
+    this.newCharacter.stIntelligence += this.newCharacter.intelligenceModif;
+    this.newCharacter.stWisdom += this.newCharacter.wisdomModif;
+    this.newCharacter.stCharisma += this.newCharacter.charismaModif;
+
+    if (this.newCharacter.playerClass === 'Barbarian') {
+      this.newCharacter.armorClass = 10 + this.newCharacter.dexterityModif + this.newCharacter.constitutionModif;
+    } else if (this.newCharacter.playerClass === 'Monk') {
+      this.newCharacter.armorClass = 10 + this.newCharacter.dexterityModif + this.newCharacter.wisdomModif;
+    } else {
+      this.newCharacter.armorClass = 10 + this.newCharacter.dexterityModif;
+    }
+    this.newCharacter.maxHitPoints = this.newCharacter.constitutionModif + this.newCharacter.hitDie;
+    this.newCharacter.hitPoints = this.newCharacter.maxHitPoints;
+    this.newCharacter.proficiencyBonus = Math.floor( 2 + ((this.newCharacter.level - 1)/4));
+    console.log(this.newCharacter);
   }
 
   async presentModal(type: string) {
@@ -127,10 +148,11 @@ export class CreatecharPage implements OnInit {
     return (this.selectedAlign === '' || this.selectedBG === '' || this.selectedClass === '' || this.selectedRace === '');
   }
 
-  private async getRaceData(): Promise<boolean> {
+  async getRaceData(): Promise<boolean> {
     const race = await this.apiService.getRace(this.selectedRace.toLowerCase());
 
-    await race.subscribe(x => {
+    race.subscribe(x => {
+      console.log(x);
       this.newCharacter.speed = x.speed;
       for (const m of x.ability_bonuses) {
           switch (m.ability_score.name) {
@@ -165,18 +187,61 @@ export class CreatecharPage implements OnInit {
     return true;
   }
 
+  async getClassData(): Promise<void> {
+    const playerclass = await this.apiService.getClass(this.selectedClass.toLowerCase());
+
+    playerclass.subscribe(x => {
+      console.log(x);
+      this.newCharacter.hitDie = x.hit_die;
+      for (const m of x.saving_throws) {
+        switch (m.name) {
+          case 'STR': {
+            this.newCharacter.stStrength += 2;
+            break;
+          }
+          case 'DEX': {
+            this.newCharacter.stDexterity += 2;
+            break;
+          }
+          case 'CON': {
+            this.newCharacter.stConstitution += 2;
+            break;
+          }
+          case 'INT': {
+            this.newCharacter.stIntelligence += 2;
+            break;
+          }
+          case 'WIS': {
+            this.newCharacter.stWisdom += 2;
+            break;
+          }
+          case 'CHA': {
+            this.newCharacter.stCharisma += 2;
+            break;
+          }
+        }
+      }
+    });
+  }
+
   private clearAll(): void {
     this.newCharacter.strengthModif = 0;
+    this.newCharacter.stStrength = 0;
     this.newCharacter.strength = 0;
     this.newCharacter.wisdomModif = 0;
+    this.newCharacter.stWisdom = 0;
     this.newCharacter.wisdom = 0;
     this.newCharacter.charismaModif = 0;
+    this.newCharacter.stCharisma = 0;
     this.newCharacter.charisma = 0;
     this.newCharacter.intelligenceModif = 0;
+    this.newCharacter.stIntelligence = 0;
     this.newCharacter.intelligence = 0;
     this.newCharacter.dexterityModif = 0;
+    this.newCharacter.stDexterity = 0;
     this.newCharacter.dexterity = 0;
     this.newCharacter.constitutionModif = 0;
+    this.newCharacter.stConstitution = 0;
     this.newCharacter.constitution= 0;
   }
 
