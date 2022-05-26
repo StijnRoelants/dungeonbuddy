@@ -34,6 +34,8 @@ export class CreatecharPage implements OnInit {
   bgList = Object.values(Backgrounds) as Backgrounds[];
   alignmentList = Object.values(Alignments) as Alignments[];
   canModif = false;
+  canSkills = false;
+  useRandomiser = true;
 
   constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet,
               public charAvatar: CharAvatarService, public dbService: DatabaseService, public approuter: AppRoutingModule,
@@ -67,6 +69,10 @@ export class CreatecharPage implements OnInit {
     await this.getClassData();
     abilityScore.length = 0;
     this.canModif = true;
+  }
+
+  changeVisibilty(): boolean {
+    return !this.useRandomiser;
   }
 
   generateRandoms(i: number, x: number): number[] {
@@ -117,6 +123,7 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.maxHitPoints = this.newCharacter.constitutionModif + this.newCharacter.hitDie;
     this.newCharacter.hitPoints = this.newCharacter.maxHitPoints;
     this.newCharacter.proficiencyBonus = Math.floor( 2 + ((this.newCharacter.level - 1)/4));
+    this.canSkills = true;
     console.log(this.newCharacter);
   }
 

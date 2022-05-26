@@ -19,8 +19,6 @@
   </ion-header>
 
   <ion-grid>
-
-
     <ion-item-divider sticky="true">
       <ion-label slot="start" class="ion-margin" color="tertiary">Basics</ion-label>
       <ion-icon (click)="presentModal('BasicInfo')" color="tertiary" class="ion-margin" slot="end"
@@ -74,14 +72,28 @@
                 name="information-circle"></ion-icon>
     </ion-item-divider>
 
-      <ion-button (click)="generateRandomAbilities()" [disabled]="checkIfReadyForRandom()"
-                  size="large" expand="full" color="tertiary">
-        <i *ngIf="checkIfReadyForRandom() === false" class="fa-solid fa-dice"></i><p *ngIf="checkIfReadyForRandom() === false" class="ion-margin">Randomise</p>
-        <p *ngIf="checkIfReadyForRandom() === true" class="ion-margin, size: 2em">Fill in basics to randomise</p>
+    <ion-row class="ion-justify-content-between" [hidden]="!useRandomiser">
+      <ion-col class="ion-text-center" size-xl="3" size-xs="12">
+      <ion-button class="minWidthButton" (click)="generateRandomAbilities()" [disabled]="checkIfReadyForRandom()"
+                  size="large"  color="tertiary">
+        <i  class="fa-solid fa-dice"></i>
+        <p  class="ion-margin">Randomise</p>
       </ion-button>
-      <ion-button (click)="implementModifs()" size="large" expand="full" color="tertiary" [disabled]="!this.canModif">
-        <i class="fa-solid fa-dice"></i><p class="ion-margin">Modifiers</p>
+      </ion-col>
+      <ion-col class="ion-text-center" size-xl="3" size-xs="12">
+      <ion-button class="minWidthButton" (click)="implementModifs()" size="large"  color="tertiary" [disabled]="!this.canModif">
+        <i class="fa-solid fa-dice"></i>
+        <p class="ion-margin">Modifiers</p>
       </ion-button>
+      </ion-col>
+      <ion-col class="ion-text-center" size-xl="3" size-xs="12">
+      <ion-button class="minWidthButton" (click)="implementModifs()" size="large"  color="tertiary" [disabled]="!this.canSkills">
+        <i class="fa-solid fa-dice"></i>
+        <p class="ion-margin">Skills</p>
+      </ion-button>
+      </ion-col>
+    </ion-row>
+
 
 
     <ion-row>
