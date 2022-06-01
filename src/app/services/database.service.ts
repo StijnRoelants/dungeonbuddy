@@ -7,9 +7,10 @@ import {
   DocumentReference,
   doc,
   addDoc,
-  query, getDocs, orderBy, where
+  query, getDocs, orderBy, where, getDoc
 } from '@angular/fire/firestore';
 import {Character} from '../../classes/character';
+import {Background} from '../../classes/backgrounds';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,17 @@ export class DatabaseService {
   async getCharacterByID(observer: ((characters: Character[]) => void )): Promise<void> {
 
   }
+
+  async getBackgroundByName(name: string): Promise<Background[]> {
+    console.log(name);
+    const result = await getDocs<Background>(
+      query<Background>(
+        this.getCollectionRef('backgrounds'),
+        where('name', '==', name)
+      )
+    );
+    return result.docs.map(x => ({...x.data(), key: x.id}));
+    };
 
 
   private getCollectionRef<T>(collectionName: string): CollectionReference<T> {

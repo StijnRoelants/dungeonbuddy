@@ -36,6 +36,9 @@ export class CreatecharPage implements OnInit {
   canModif = false;
   canSkills = false;
   useRandomiser = true;
+  startingProficiencies: string[] = [];
+  selectableProficienciesClass: string[] = [];
+  selectableProfCountClass = 0;
 
   constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet,
               public charAvatar: CharAvatarService, public dbService: DatabaseService, public approuter: AppRoutingModule,
@@ -55,17 +58,18 @@ export class CreatecharPage implements OnInit {
     this.selectedBG = '';
     this.selectedAlign = '';
     delete(this.charAvatar.avatar);
-    //console.log(this.newCharacter);
+    this.startingProficiencies = [];
+    this.selectableProficienciesClass = [];
+    this.selectableProfCountClass = 0;
   }
 
   async generateRandomAbilities(): Promise<void>  {
-    let check = false;
 
     this.clearAll();
     const abilityScore = this.generateRandoms(6,4);
     console.log(abilityScore);
     this.implementAbilities(abilityScore);
-    check = await this.getRaceData();
+    await this.getRaceData();
     await this.getClassData();
     abilityScore.length = 0;
     this.canModif = true;
@@ -125,6 +129,7 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.proficiencyBonus = Math.floor( 2 + ((this.newCharacter.level - 1)/4));
     this.canSkills = true;
     console.log(this.newCharacter);
+    console.log(this.startingProficiencies);
   }
 
   async presentModal(type: string) {
@@ -155,12 +160,17 @@ export class CreatecharPage implements OnInit {
     return (this.selectedAlign === '' || this.selectedBG === '' || this.selectedClass === '' || this.selectedRace === '');
   }
 
-  async getRaceData(): Promise<boolean> {
+  async getRaceData(): Promise<void> {
     const race = await this.apiService.getRace(this.selectedRace.toLowerCase());
 
     race.subscribe(x => {
       console.log(x);
       this.newCharacter.speed = x.speed;
+      if (x.starting_proficiencies.length > 0 && x.name === 'Elf') {
+        for (const p of x.starting_proficiencies) {
+          this.startingProficiencies.push(p.name.substring(7));
+        }
+      }
       for (const m of x.ability_bonuses) {
           switch (m.ability_score.name) {
             case 'STR': {
@@ -191,7 +201,6 @@ export class CreatecharPage implements OnInit {
         }
     });
     race.subscribe().unsubscribe();
-    return true;
   }
 
   async getClassData(): Promise<void> {
@@ -200,6 +209,13 @@ export class CreatecharPage implements OnInit {
     playerclass.subscribe(x => {
       console.log(x);
       this.newCharacter.hitDie = x.hit_die;
+      if (x.proficiency_choices.length > 0) {
+        this.selectableProfCountClass = x.proficiency_choices[0].choose;
+        for (const p of x.proficiency_choices[0].from) {
+          this.selectableProficienciesClass.push(p.name.substring(7));
+        }
+        console.log(this.selectableProfCountClass + ' ' + this.selectableProficienciesClass);
+      }
       for (const m of x.saving_throws) {
         switch (m.name) {
           case 'STR': {
@@ -229,6 +245,13 @@ export class CreatecharPage implements OnInit {
         }
       }
     });
+    playerclass.subscribe().unsubscribe();
+  }
+
+  async implementSkills(): Promise<void> {
+    await this.charService.getBackgroundData(this.selectedBG, this.startingProficiencies);
+    console.log(this.startingProficiencies);
+
   }
 
   private clearAll(): void {
@@ -250,6 +273,9 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.constitutionModif = 0;
     this.newCharacter.stConstitution = 0;
     this.newCharacter.constitution= 0;
+    this.startingProficiencies = [];
+    this.selectableProficienciesClass = [];
+    this.selectableProfCountClass = 0;
   }
 
   private checkForModifs(value: number): number {
@@ -312,6 +338,4 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.wisdom += abilityScore[4];
     this.newCharacter.charisma += abilityScore[5];
   }
-
-
 }

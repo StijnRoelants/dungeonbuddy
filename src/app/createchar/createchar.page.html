@@ -35,25 +35,25 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Race</ion-label>
-      <ion-select [(ngModel)]="selectedRace" [required]="true">
+      <ion-select (ionChange)="clearAll()" [(ngModel)]="selectedRace" [required]="true">
         <ion-select-option *ngFor='let r of raceList' [value]="r">{{r}}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Class</ion-label>
-      <ion-select [(ngModel)]="selectedClass" [required]="true">
+      <ion-select (ionChange)="clearAll()" [(ngModel)]="selectedClass" [required]="true">
         <ion-select-option *ngFor='let c of classList' [value]="c">{{c}}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item lines="full">
       <ion-label position="floating">Background</ion-label>
-      <ion-select [(ngModel)]="selectedBG" [required]="true">
+      <ion-select (ionChange)="clearAll()" [(ngModel)]="selectedBG" [required]="true">
         <ion-select-option *ngFor='let b of bgList' [value]="b">{{b}}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item lines="full">
       <ion-label position="floating">Alignment</ion-label>
-      <ion-select [(ngModel)]="selectedAlign" [required]="true">
+      <ion-select (ionChange)="clearAll()" [(ngModel)]="selectedAlign" [required]="true">
         <ion-select-option *ngFor='let a of alignmentList' [value]="a">{{a}}</ion-select-option>
       </ion-select>
     </ion-item>
@@ -87,7 +87,7 @@
       </ion-button>
       </ion-col>
       <ion-col class="ion-text-center" size-xl="3" size-xs="12">
-      <ion-button class="minWidthButton" (click)="implementModifs()" size="large"  color="tertiary" [disabled]="!this.canSkills">
+      <ion-button class="minWidthButton" (click)="implementSkills()" size="large"  color="tertiary" [disabled]="!this.canSkills">
         <i class="fa-solid fa-dice"></i>
         <p class="ion-margin">Skills</p>
       </ion-button>
