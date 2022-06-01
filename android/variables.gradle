@@ -12,4 +12,6 @@ ext {
     androidxEspressoCoreVersion = '3.3.0'
     cordovaAndroidVersion = '7.0.0'
     rgcfaIncludeGoogle = true
+    rgcfaIncludeGithub = true
+    rgcfaIncludeFacebook = true
 }

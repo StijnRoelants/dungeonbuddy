@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {FirebaseAuthentication} from '@capacitor-firebase/authentication';
 import {Router} from '@angular/router';
-import {Auth, signInWithCredential, signOut} from '@angular/fire/auth';
-import {updateProfile, GoogleAuthProvider, PhoneAuthProvider, User} from 'firebase/auth';
+import {Auth, getAuth, signInWithCredential, signInWithCustomToken, signInWithPopup, signOut} from '@angular/fire/auth';
+import {updateProfile, GoogleAuthProvider, PhoneAuthProvider, User, FacebookAuthProvider} from 'firebase/auth';
 import {Capacitor} from '@capacitor/core';
+import { GithubAuthProvider } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,27 @@ export class AuthService {
     }
   }
 
+  async signInWithFacebook(): Promise<void> {
+    const {credential: {accessToken}} = await FirebaseAuthentication.signInWithFacebook();
+    console.log(this.currentUser);
+
+    if (Capacitor.isNativePlatform()) {
+
+      const credential = FacebookAuthProvider.credential(accessToken);
+      await signInWithCredential(this.auth, credential);
+    }
+  }
+
+  async signInWithGitHub(): Promise<void> {
+    const {credential: {idToken}} = await FirebaseAuthentication.signInWithGithub();
+    console.log(this.currentUser);
+
+    if (Capacitor.isNativePlatform()) {
+
+      const credential = GithubAuthProvider.credential(idToken);
+      await signInWithCredential(this.auth, credential);
+    }
+  }
 
   async sendPhoneVerificationCode(phoneNumber: string): Promise<void> {
 

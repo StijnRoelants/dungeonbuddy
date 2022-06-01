@@ -8,7 +8,9 @@
 			"skipNativeAuth": false,
 			"providers": [
 				"phone",
-				"google.com"
+				"google.com",
+				"github.com",
+				"facebook.com"
 			]
 		}
 	}
