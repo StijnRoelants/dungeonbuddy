@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FirebaseAuthentication} from '@capacitor-firebase/authentication';
 import {Router} from '@angular/router';
-import {Auth, getAuth, signInWithCredential, signInWithCustomToken, signInWithPopup, signOut} from '@angular/fire/auth';
+import {Auth, signInWithCredential, signOut} from '@angular/fire/auth';
 import {updateProfile, GoogleAuthProvider, PhoneAuthProvider, User, FacebookAuthProvider} from 'firebase/auth';
 import {Capacitor} from '@capacitor/core';
 import { GithubAuthProvider } from 'firebase/auth';
