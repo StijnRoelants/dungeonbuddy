@@ -72,7 +72,7 @@
                 name="information-circle"></ion-icon>
     </ion-item-divider>
 
-    <ion-row class="ion-justify-content-between" [hidden]="!useRandomiser">
+    <ion-row class="ion-justify-content-between">
       <ion-col class="ion-text-center" size-xl="3" size-xs="12">
       <ion-button class="minWidthButton" (click)="generateRandomAbilities()" [disabled]="checkIfReadyForRandom()"
                   size="large"  color="tertiary">
@@ -403,7 +403,7 @@
       <ion-label position="floating">Flaws</ion-label>
       <ion-textarea cols="10" rows="5" class="ion-margin-top" [(ngModel)]="newCharacter.flaws" [required]="false"></ion-textarea>
     </ion-item>
-    <ion-button (click)="createCharacter()" size="large" expand="full" color="tertiary">
+    <ion-button (click)="createCharacter()" size="large" expand="full" color="tertiary" [disabled]="checkIfCanCreate()">
       <i class="fa-regular fa-floppy-disk"></i><p class="ion-margin">Save character</p>
     </ion-button>
   </ion-grid>

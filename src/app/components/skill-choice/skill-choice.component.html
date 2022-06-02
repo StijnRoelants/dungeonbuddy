@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Choose your skills</ion-title>
+    <ion-buttons slot='start'>
+      <ion-button (click)='dismissModal()'>Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list lines="inset">
+    <ion-list-header>
+      You have chosen {{selectedAmount}} / {{amount}} skills available
+    </ion-list-header>
+    <ion-item *ngFor="let skill of skillChoices">
+      <ion-checkbox slot="start" [(ngModel)]="skill.isChecked" (ionChange)="check(skill)" [disabled]="!skill.isChecked && this.selectedAmount === amount"></ion-checkbox>
+      <ion-label>{{skill.val}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="full" (click)="dismissModalAndSave()" color="tertiary" [disabled]="selectedAmount !== amount">
+    Choose skills
+  </ion-button>
+</ion-content>

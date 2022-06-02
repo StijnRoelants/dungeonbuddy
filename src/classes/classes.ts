@@ -4,7 +4,6 @@ export enum PlayerClass {
   cleric = 'Cleric',
   druid = 'Druid',
   fighter = 'Fighter',
-  monk = 'Monk',
   paladin = 'Paladin',
   rogue = 'Rogue',
   ranger = 'Ranger',

@@ -13,10 +13,12 @@ import {enableIndexedDbPersistence, getFirestore, provideFirestore} from '@angul
 import {environment} from '../environments/environment';
 import {getAuth, provideAuth} from '@angular/fire/auth';
 import {HttpClientModule} from '@angular/common/http';
+/* Added skillChoiceComponent so *ng.. could be used in Modals */
+import {SkillChoiceComponent} from './components/skill-choice/skill-choice.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent,SkillChoiceComponent],
+  entryComponents: [SkillChoiceComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FontAwesomeModule,
   provideFirebaseApp( () => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => {

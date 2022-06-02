@@ -13,6 +13,7 @@ import {DatabaseService} from '../services/database.service';
 import {AppRoutingModule} from '../app-routing.module';
 import {ApiService} from '../services/api.service';
 import {CharacterService} from '../services/character.service';
+import {SkillChoiceComponent} from '../components/skill-choice/skill-choice.component';
 
 @Component({
   selector: 'app-createchar',
@@ -35,7 +36,7 @@ export class CreatecharPage implements OnInit {
   alignmentList = Object.values(Alignments) as Alignments[];
   canModif = false;
   canSkills = false;
-  useRandomiser = true;
+  canSave = false;
   startingProficiencies: string[] = [];
   selectableProficienciesClass: string[] = [];
   selectableProfCountClass = 0;
@@ -66,7 +67,7 @@ export class CreatecharPage implements OnInit {
   async generateRandomAbilities(): Promise<void>  {
 
     this.clearAll();
-    const abilityScore = this.generateRandoms(6,4);
+    const abilityScore = this.generateRandoms();
     console.log(abilityScore);
     this.implementAbilities(abilityScore);
     await this.getRaceData();
@@ -75,17 +76,13 @@ export class CreatecharPage implements OnInit {
     this.canModif = true;
   }
 
-  changeVisibilty(): boolean {
-    return !this.useRandomiser;
-  }
-
-  generateRandoms(i: number, x: number): number[] {
+  generateRandoms(): number[] {
 
     const rolls: number[]  = [];
     const abilityScore: number [] = [];
 
-    for ( i = 0; i < 6; i++){
-      for ( x = 0; x < 4; x++) {
+    for (let i = 0; i < 6; i++){
+      for (let x = 0; x < 4; x++) {
         const score = Math.floor(Math.random() * 6) + 1;
         rolls.push(score);
       }
@@ -142,6 +139,23 @@ export class CreatecharPage implements OnInit {
     return await modal.present();
   }
 
+  async presentSkillModal(amount: number, list: string[], check: string[]) {
+    const modal = await this.modalController.create({
+      component: SkillChoiceComponent,
+      componentProps: {passingNumber: amount, passingList: list, passingCheckList: check},
+      presentingElement: this.routerOutlet.nativeEl,
+      canDismiss: true,
+    });
+    modal.onDidDismiss()
+      .then((data) => {
+        for (const x of data.data){
+          this.startingProficiencies.push(x);
+        }
+      });
+    await modal.present();
+    return modal.onDidDismiss();
+  }
+
   async createCharacter(): Promise<void> {
     this.newCharacter.playerClass = this.selectedClass;
     this.newCharacter.race = this.selectedRace;
@@ -151,6 +165,7 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.picture = this.charAvatar.avatar.base64String;
     this.newCharacter.skills = this.newSkills;
     this.newCharacter.userID = '';
+    this.newCharacter.gold = this.charService.calculateStartingGold(this.selectedClass);
     console.log(this.newCharacter);
     await this.dbService.createCharacter(this.newCharacter);
     this.approuter.openCharacterPage();
@@ -158,6 +173,10 @@ export class CreatecharPage implements OnInit {
 
   checkIfReadyForRandom(): boolean {
     return (this.selectedAlign === '' || this.selectedBG === '' || this.selectedClass === '' || this.selectedRace === '');
+  }
+
+  checkIfCanCreate(): boolean {
+    return (this.charName === '');
   }
 
   async getRaceData(): Promise<void> {
@@ -251,10 +270,14 @@ export class CreatecharPage implements OnInit {
   async implementSkills(): Promise<void> {
     await this.charService.getBackgroundData(this.selectedBG, this.startingProficiencies);
     console.log(this.startingProficiencies);
-
+    await this.presentSkillModal(this.selectableProfCountClass, this.selectableProficienciesClass, this.startingProficiencies);
+    this.canSkills = false;
+    this.canModif = false;
+    this.charService.generateSkills(this.startingProficiencies, this.newSkills, this.newCharacter);
   }
 
-  private clearAll(): void {
+  public clearAll(): void {
+    this.newSkills = new Skills();
     this.newCharacter.strengthModif = 0;
     this.newCharacter.stStrength = 0;
     this.newCharacter.strength = 0;
