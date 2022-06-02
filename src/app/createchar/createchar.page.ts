@@ -14,6 +14,7 @@ import {AppRoutingModule} from '../app-routing.module';
 import {ApiService} from '../services/api.service';
 import {CharacterService} from '../services/character.service';
 import {SkillChoiceComponent} from '../components/skill-choice/skill-choice.component';
+import {Capacitor} from '@capacitor/core';
 
 @Component({
   selector: 'app-createchar',
@@ -49,7 +50,6 @@ export class CreatecharPage implements OnInit {
   }
 
   ionViewWillEnter() {
-
     this.newCharacter = new Character();
     this.newSkills = new Skills();
     this.charName = '';
@@ -62,6 +62,10 @@ export class CreatecharPage implements OnInit {
     this.startingProficiencies = [];
     this.selectableProficienciesClass = [];
     this.selectableProfCountClass = 0;
+  }
+
+  isNative(): boolean {
+    return Capacitor.isNativePlatform();
   }
 
   async generateRandomAbilities(): Promise<void>  {

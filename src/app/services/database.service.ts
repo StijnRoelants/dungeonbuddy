@@ -7,7 +7,7 @@ import {
   DocumentReference,
   doc,
   addDoc,
-  query, getDocs, orderBy, where, getDoc
+  query, getDocs, Unsubscribe, where, deleteDoc, onSnapshot
 } from '@angular/fire/firestore';
 import {Character} from '../../classes/character';
 import {Background} from '../../classes/backgrounds';
@@ -17,7 +17,14 @@ import {Background} from '../../classes/backgrounds';
 })
 export class DatabaseService {
 
+  private readonly unsubscribeAll: Unsubscribe[] = [];
+
   constructor(private authService: AuthService, private fireStore: Firestore) { }
+
+  async deleteCharacter(id: string): Promise<void> {
+    await deleteDoc(this.getDocumentRef('characters', id));
+    return;
+  }
 
   async createCharacter(newCharacter: Character): Promise<void> {
     const createdCharacter: Character = newCharacter;
@@ -41,8 +48,15 @@ export class DatabaseService {
     return result.docs.map(x => ({...x.data(), key: x.id}));
   }
 
-  async getCharacterByID(observer: ((characters: Character[]) => void )): Promise<void> {
+  async getCharacterByID(id: string, observer: ((characters: Character) => void )): Promise<Unsubscribe> {
+    const result = x => observer({...x.data(), key: x.id});
 
+    const unsubscribe = onSnapshot<Character>(
+      this.getDocumentRef('characters',id),
+      result
+    );
+    this.unsubscribeAll.push(unsubscribe);
+    return unsubscribe;
   }
 
   async getBackgroundByName(name: string): Promise<Background[]> {

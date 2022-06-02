@@ -38,7 +38,7 @@ export class CharAvatarService {
    this.avatarURI = returnUri;
     result.dataUrl = `data:image/${result.format};base64,${result.base64String}`;
    this.avatar = result;
-   console.log(this.avatar.base64String);
+   console.log(this.avatarURI);
   }
 
   private async avatartoFileSystem(avatar: Photo): Promise<string> {
@@ -53,7 +53,7 @@ export class CharAvatarService {
 
   private async avatarNative(): Promise<void> {
     if (!this.haveCameraPermision() && !this.havePhotosPermision()){
-      this.requestPermissions();
+      await this.requestPermissions();
     }
 
     if (!this.haveCameraPermision() && !this.havePhotosPermision()){
@@ -62,7 +62,7 @@ export class CharAvatarService {
 
     const result = await Camera.getPhoto({
       quality: 100,
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
       source: await this.getCamerasourceNative()
     });
 

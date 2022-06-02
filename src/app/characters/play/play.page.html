@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Lets roll!</ion-title>
+    <ion-buttons slot='start'>
+      <ion-back-button defaultHref='/'></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-avatar class="ion-margin">
+      <img alt="avatar" src="{{imgURL}}"/>
+    </ion-avatar>
+    <ion-card-header>
+      <ion-card-subtitle>{{character.playerClass}} | {{character.alignment}}</ion-card-subtitle>
+      <ion-card-title>{{character.name}}</ion-card-title>
+
+    </ion-card-header>
+      <ion-card-content>
+        {{character.gold}}
+      </ion-card-content>
+  </ion-card>
+
+</ion-content>
