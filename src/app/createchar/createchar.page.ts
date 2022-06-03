@@ -15,6 +15,7 @@ import {ApiService} from '../services/api.service';
 import {CharacterService} from '../services/character.service';
 import {SkillChoiceComponent} from '../components/skill-choice/skill-choice.component';
 import {Capacitor} from '@capacitor/core';
+import {StandardAvatars} from '../../classes/standardAvatars';
 
 @Component({
   selector: 'app-createchar',
@@ -25,6 +26,7 @@ export class CreatecharPage implements OnInit {
 
   newCharacter: Character = new Character();
   newSkills: Skills = new Skills();
+  standardAvatar: StandardAvatars = new StandardAvatars();
   charName: string;
   charBackground: string;
   selectedRace: string;
@@ -50,6 +52,7 @@ export class CreatecharPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.getAvatar();
     this.newCharacter = new Character();
     this.newSkills = new Skills();
     this.charName = '';
@@ -66,6 +69,11 @@ export class CreatecharPage implements OnInit {
 
   isNative(): boolean {
     return Capacitor.isNativePlatform();
+  }
+
+  getAvatar(){
+    this.standardAvatar = this.charService.randomAvatar();
+    console.log(this.standardAvatar);
   }
 
   async generateRandomAbilities(): Promise<void>  {
@@ -166,7 +174,11 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.background = this.selectedBG;
     this.newCharacter.alignment = this.selectedAlign;
     this.newCharacter.name = this.charName;
-    this.newCharacter.picture = this.charAvatar.avatar.base64String;
+    if (this.charAvatar.avatar === undefined) {
+      this.newCharacter.picture = this.standardAvatar.base64Code;
+    } else {
+      this.newCharacter.picture = this.charAvatar.avatar.base64String;
+    }
     this.newCharacter.skills = this.newSkills;
     this.newCharacter.userID = '';
     this.newCharacter.gold = this.charService.calculateStartingGold(this.selectedClass);

@@ -3,11 +3,14 @@ import {Background} from '../../classes/backgrounds';
 import {DatabaseService} from './database.service';
 import {Skills} from '../../classes/skills';
 import {Character} from '../../classes/character';
+import { randomizerList, StandardAvatars} from '../../classes/standardAvatars';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CharacterService {
+
+  avatarList: StandardAvatars[];
 
   constructor(public dbService: DatabaseService,) { }
 
@@ -19,6 +22,13 @@ export class CharacterService {
       }
     }
     return;
+  }
+
+  randomAvatar(): StandardAvatars {
+    this.avatarList = randomizerList;
+    const result = Math.floor(Math.random() * 5);
+    console.log(result);
+    return this.avatarList[result];
   }
 
   generateSkills(list: string[], newSkills: Skills, newCharacter: Character): void {

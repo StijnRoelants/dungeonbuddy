@@ -38,7 +38,7 @@ export class CharAvatarService {
    this.avatarURI = returnUri;
     result.dataUrl = `data:image/${result.format};base64,${result.base64String}`;
    this.avatar = result;
-   console.log(this.avatarURI);
+   console.log(this.avatar.base64String);
   }
 
   private async avatartoFileSystem(avatar: Photo): Promise<string> {

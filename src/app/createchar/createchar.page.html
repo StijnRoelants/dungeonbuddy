@@ -20,14 +20,14 @@
 
   <ion-grid>
     <ion-item-divider sticky="true">
-      <ion-label slot="start" class="ion-margin" color="tertiary">Basics</ion-label>
-      <ion-icon (click)="presentModal('BasicInfo')" color="tertiary" class="ion-margin" slot="end"
+      <ion-label slot="start" class="ion-margin iconColor">Basics</ion-label>
+      <ion-icon (click)="presentModal('BasicInfo')" class="ion-margin iconColor" slot="end"
                 name="information-circle"></ion-icon>
     </ion-item-divider>
 
     <ion-item lines="full">
       <ion-avatar slot="start">
-        <img *ngIf="charAvatar.avatar === undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"/>
+        <img *ngIf="charAvatar.avatar === undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" [src]="standardAvatar.srcString"/>
         <img *ngIf="isNative() && charAvatar.avatar !== undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" src="{{'data:image/png;base64,' + charAvatar.avatar.base64String}}}" />
         <img *ngIf="charAvatar.avatar !== undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" [src]="charAvatar.avatar.dataUrl"/>
       </ion-avatar>
@@ -68,8 +68,8 @@
     </ion-item>
 
     <ion-item-divider sticky="true">
-      <ion-label slot="start" class="ion-margin" color="tertiary">Abilities</ion-label>
-      <ion-icon (click)="presentModal('AbilitieInfo')" color="tertiary" class="ion-margin" slot="end"
+      <ion-label slot="start" class="ion-margin  iconColor">Abilities</ion-label>
+      <ion-icon (click)="presentModal('AbilitieInfo')" class="ion-margin iconColor" slot="end"
                 name="information-circle"></ion-icon>
     </ion-item-divider>
 
@@ -182,8 +182,8 @@
     </ion-row>
 
     <ion-item-divider sticky="true">
-        <ion-label slot="start" class="ion-margin" color="tertiary">Saving Throws</ion-label>
-        <ion-icon (click)="presentModal('stInfo')" color="tertiary" class="ion-margin" slot="end"
+        <ion-label slot="start" class="ion-margin iconColor" >Saving Throws</ion-label>
+        <ion-icon (click)="presentModal('stInfo')" class="ion-margin iconColor" slot="end"
                   name="information-circle"></ion-icon>
       </ion-item-divider>
 
@@ -235,8 +235,8 @@
       </ion-row>
 
       <ion-item-divider sticky="true">
-        <ion-label slot="start" class="ion-margin" color="tertiary">Skills</ion-label>
-        <ion-icon (click)="presentModal('SkillsInfo')" color="tertiary" class="ion-margin" slot="end"
+        <ion-label slot="start" class="ion-margin iconColor">Skills</ion-label>
+        <ion-icon (click)="presentModal('SkillsInfo')" class="ion-margin iconColor" slot="end"
                   name="information-circle"></ion-icon>
       </ion-item-divider>
 
@@ -382,9 +382,39 @@
       </ion-row>
 
     <ion-item-divider sticky="true">
-      <ion-label slot="start" class="ion-margin" color="tertiary">Extra</ion-label>
+      <ion-label slot="start" class="ion-margin iconColor">Extra</ion-label>
     </ion-item-divider>
 
+    <ion-row>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Hit points</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.hitPoints"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Armor class</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.armorClass"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Dice type</ion-label>
+          <ion-input type="number" [max]="20" [min]="4" class="ion-margin-top" [(ngModel)]="newCharacter.hitDie"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Starting gold</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.gold"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
     <ion-item lines="full">
       <ion-label position="floating">Personality Traits</ion-label>
       <ion-textarea cols="10" rows="5" class="ion-margin-top" [(ngModel)]="newCharacter.personalTraits" [required]="false"></ion-textarea>
