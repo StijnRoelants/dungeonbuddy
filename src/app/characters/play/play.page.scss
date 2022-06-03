@@ -6,3 +6,13 @@
   margin: auto;
 
 }
+.iconColor {
+  color: darkorange;
+}
+.buttonList{
+  min-width: 15em;
+}
+.buttonList:hover{
+  background-color: darkorange;
+  color: white;
+}

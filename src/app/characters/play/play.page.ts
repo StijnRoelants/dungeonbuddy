@@ -15,6 +15,8 @@ export class PlayPage implements OnInit {
   character: Character = new Character();
   imgURL = '';
   charID?: string = undefined;
+  message = '';
+  showMessageBox = false;
   private unsubscribe: Unsubscribe;
 
 
