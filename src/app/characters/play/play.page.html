@@ -13,7 +13,8 @@
       <img class="maxHeight" alt="avatar" src="{{imgURL}}"/>
 
     <ion-card-header>
-      <ion-card-subtitle>{{character.race}} | {{character.playerClass}} | Level: {{character.level}} | {{character.xp}}XP</ion-card-subtitle>
+      <ion-card-subtitle>{{character.race}} | {{character.playerClass}} | Level: {{character.level}}</ion-card-subtitle>
+      <ion-card-subtitle>Proficiency bonus +{{character.proficiencyBonus}}</ion-card-subtitle>
       <ion-card-title >{{character.name}}</ion-card-title>
 
     </ion-card-header>
@@ -31,15 +32,18 @@
           <h2>{{character.hitPoints}}/{{character.maxHitPoints}}HP</h2>
         </ion-item>
         <ion-item class="ion-text-center">
+          <ion-progress-bar color="tertiary" value="{{percentage}}" ></ion-progress-bar>
+          <ion-text color="medium" class="xpTXT">XP: {{character.xp}} / {{character.xpToNextLevel}}</ion-text>
+        </ion-item>
+        <ion-item class="ion-text-center">
           <ion-label [hidden]="!showMessageBox">{{message}}</ion-label>
         </ion-item>
         <ion-buttons class="ion-justify-content-center ion-text-start">
-          <ion-button class="buttonList"><i class="fa-solid fa-heart ion-padding-end"></i> Heal</ion-button>
-          <ion-button class="buttonList"><i class="fa-solid fa-skull-crossbones ion-padding-end"></i>Take damage</ion-button>
+          <ion-button class="buttonList" (click)="characterHeal()"><i class="fa-solid fa-heart ion-padding-end"></i> Heal</ion-button>
+          <ion-button class="buttonList" (click)="characterDamage()"><i class="fa-solid fa-skull-crossbones ion-padding-end"></i>Take damage</ion-button>
         </ion-buttons>
         <ion-buttons class="ion-justify-content-center" slot="start">
-          <ion-button  class="buttonList"><i class="fa-solid fa-plus ion-padding-end"></i>Add xp</ion-button>
-          <ion-button class="buttonList"><i class="fa-solid fa-arrow-up ion-padding-end"></i>level up!</ion-button>
+          <ion-button  class="buttonList" (click)="characterXP()"><i class="fa-solid fa-plus ion-padding-end"></i>Add xp</ion-button>
         </ion-buttons>
       </ion-card-content>
   </ion-card>

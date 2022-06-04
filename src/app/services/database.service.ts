@@ -7,7 +7,7 @@ import {
   DocumentReference,
   doc,
   addDoc,
-  query, getDocs, Unsubscribe, where, deleteDoc, onSnapshot
+  query, getDocs, Unsubscribe, where, deleteDoc, onSnapshot, updateDoc
 } from '@angular/fire/firestore';
 import {Character} from '../../classes/character';
 import {Background} from '../../classes/backgrounds';
@@ -23,6 +23,11 @@ export class DatabaseService {
 
   async deleteCharacter(id: string): Promise<void> {
     await deleteDoc(this.getDocumentRef('characters', id));
+    return;
+  }
+
+  async updateCharacter(id: string, data: Character): Promise<void> {
+    await updateDoc(this.getDocumentRef('characters', id), {...data});
     return;
   }
 

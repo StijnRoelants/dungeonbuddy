@@ -192,4 +192,114 @@ export class CharacterService {
   }
 
 
+  levelUp(character: Character) {
+    if (character.level === 20) {
+      return;
+    }
+    switch (character.level) {
+      case 0: {
+        character.level++;
+        character.xpToNextLevel = 300;
+        break;
+      }
+      case 1: {
+        character.level++;
+        character.xpToNextLevel = 900;
+        break;
+      }
+      case 2: {
+        character.level++;
+        character.xpToNextLevel = 2700;
+        break;
+      }
+      case 3: {
+        character.level++;
+        character.xpToNextLevel = 6500;
+        break;
+      }
+      case 4: {
+        character.level++;
+        character.xpToNextLevel = 14000;
+        character.proficiencyBonus++;
+        break;
+      }
+      case 5: {
+        character.level++;
+        character.xpToNextLevel = 23000;
+        break;
+      }
+      case 6: {
+        character.level++;
+        character.xpToNextLevel = 34000;
+        break;
+      }
+      case 7: {
+        character.level++;
+        character.xpToNextLevel = 48000;
+        break;
+      }
+      case 8: {
+        character.level++;
+        character.xpToNextLevel = 64000;
+        character.proficiencyBonus++;
+        break;
+      }
+      case 9: {
+        character.level++;
+        character.xpToNextLevel = 85000;
+        break;
+      }
+      case 10: {
+        character.level++;
+        character.xpToNextLevel = 100000;
+        break;
+      }
+      case 11: {
+        character.level++;
+        character.xpToNextLevel = 120000;
+        break;
+      }
+      case 12: {
+        character.level++;
+        character.xpToNextLevel = 140000;
+        character.proficiencyBonus++;
+        break;
+      }
+      case 13: {
+        character.level++;
+        character.xpToNextLevel = 165000;
+        break;
+      }
+      case 14: {
+        character.level++;
+        character.xpToNextLevel = 195000;
+        break;
+      }
+      case 15: {
+        character.level++;
+        character.xpToNextLevel = 225000;
+        break;
+      }
+      case 16: {
+        character.level++;
+        character.xpToNextLevel = 265000;
+        character.proficiencyBonus++;
+        break;
+      }
+      case 17: {
+        character.level++;
+        character.xpToNextLevel = 305000;
+        break;
+      }
+      case 18: {
+        character.level++;
+        character.xpToNextLevel = 355000;
+        break;
+      }
+      case 19: {
+        character.level++;
+        break;
+      }
+    }
+  }
 }

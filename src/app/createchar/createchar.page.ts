@@ -33,6 +33,7 @@ export class CreatecharPage implements OnInit {
   selectedClass: string;
   selectedBG: string;
   selectedAlign: string;
+  level: number;
   raceList = Object.values(RaceType) as RaceType[];
   classList = Object.values(PlayerClass) as PlayerClass[];
   bgList = Object.values(Backgrounds) as Backgrounds[];
@@ -65,6 +66,7 @@ export class CreatecharPage implements OnInit {
     this.startingProficiencies = [];
     this.selectableProficienciesClass = [];
     this.selectableProfCountClass = 0;
+    this.level = 1;
   }
 
   isNative(): boolean {
@@ -182,6 +184,8 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.skills = this.newSkills;
     this.newCharacter.userID = '';
     this.newCharacter.gold = this.charService.calculateStartingGold(this.selectedClass);
+    this.newCharacter.level = this.level - 1;
+    this.charService.levelUp(this.newCharacter);
     console.log(this.newCharacter);
     await this.dbService.createCharacter(this.newCharacter);
     this.approuter.openCharacterPage();

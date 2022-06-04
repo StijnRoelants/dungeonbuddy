@@ -60,7 +60,7 @@
     </ion-item>
     <ion-item lines="full">
       <ion-label position="floating">Level</ion-label>
-      <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.level" [required]="true"></ion-input>
+      <ion-input type="number" [min]="1" [max]="20" class="ion-margin-top" [(ngModel)]="level" [required]="true"></ion-input>
     </ion-item>
     <ion-item lines="full">
       <ion-label position="floating">XP</ion-label>

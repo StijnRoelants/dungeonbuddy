@@ -11,6 +11,7 @@ export interface ICharacter {
   alignment: string;
   background: string;
   xp: number;
+  xpToNextLevel: number;
   weapons?: Weapon[];
   race: string;
   inspiration: boolean;
@@ -90,6 +91,7 @@ export class Character implements ICharacter {
   wisdom = 0;
   wisdomModif = 0;
   xp = 0;
+  xpToNextLevel = 0;
   level = 1;
   picture?: string;
   speed = 0;
