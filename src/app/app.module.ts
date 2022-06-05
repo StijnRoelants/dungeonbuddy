@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -13,11 +13,13 @@ import {enableIndexedDbPersistence, getFirestore, provideFirestore} from '@angul
 import {environment} from '../environments/environment';
 import {getAuth, provideAuth} from '@angular/fire/auth';
 import {HttpClientModule} from '@angular/common/http';
+import {InfoModalComponent} from './components/info-modal/info-modal.component';
 /* Added skillChoiceComponent so *ng.. could be used in Modals */
 import {SkillChoiceComponent} from './components/skill-choice/skill-choice.component';
 
+
 @NgModule({
-  declarations: [AppComponent,SkillChoiceComponent],
+  declarations: [AppComponent,SkillChoiceComponent,InfoModalComponent],
   entryComponents: [SkillChoiceComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FontAwesomeModule,
   provideFirebaseApp( () => initializeApp(environment.firebaseConfig)),
@@ -31,5 +33,9 @@ import {SkillChoiceComponent} from './components/skill-choice/skill-choice.compo
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
+  ]
 })
 export class AppModule {}

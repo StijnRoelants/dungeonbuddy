@@ -18,11 +18,66 @@ import {Subscription} from 'rxjs';
 })
 export class DatabaseService {
 
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
   userID: string;
   private readonly unsubscribeAll: Unsubscribe[] = [];
 
   constructor(private authService: AuthService, private fireStore: Firestore) { }
+
+  async getUser(): Promise<void> {
+    this.subscription = await (await this.authService.getUser()).subscribe(x => {
+      this.userID = x.uid;
+    });
+  }
+
+  async getCharactersByUserID(): Promise<Character[]> {
+
+     await this.getUser();
+
+    const result = await getDocs<Character>(
+      query<Character>(
+        this.getCollectionRef('characters'),
+        where('userID', '==', this.userID)
+      )
+    );
+    return result.docs.map(x => ({...x.data(), key: x.id}));
+  }
+
+  async getCharactersByUserIDNew(id: string, observer: ((characters: Character[]) => void)): Promise<Unsubscribe> {
+    const result = x => observer(x.docs.map(d => ({...d.data(), key:d.id})));
+
+    const unsubscribe = onSnapshot<Character>(
+      query<Character>(
+      this.getCollectionRef('characters'),
+      where('userID', '==', id)
+    ),
+      result
+    );
+    this.unsubscribeAll.push(unsubscribe);
+    return unsubscribe;
+  }
+
+  async getCharacterByID(id: string, observer: ((characters: Character) => void )): Promise<Unsubscribe> {
+    const result = x => observer({...x.data(), key: x.id});
+
+    const unsubscribe = onSnapshot<Character>(
+      this.getDocumentRef('characters',id),
+      result
+    );
+    this.unsubscribeAll.push(unsubscribe);
+    return unsubscribe;
+  }
+
+  async getBackgroundByName(name: string): Promise<Background[]> {
+    /*console.log(name);*/
+    const result = await getDocs<Background>(
+      query<Background>(
+        this.getCollectionRef('backgrounds'),
+        where('name', '==', name)
+      )
+    );
+    return result.docs.map(x => ({...x.data(), key: x.id}));
+    };
 
   async deleteCharacter(id: string): Promise<void> {
     await deleteDoc(this.getDocumentRef('characters', id));
@@ -46,51 +101,6 @@ export class DatabaseService {
       JSON.parse(JSON.stringify(createdCharacter))
     );
   }
-
-  async getUser(): Promise<void> {
-    this.subscription = await this.authService.getUser().subscribe(x => {
-      this.userID = x.uid;
-    });
-    this.subscription.unsubscribe();
-    return;
-  }
-
-  async getCharactersByUserID(): Promise<Character[]> {
-
-    await this.getUser();
-    console.log(this.userID);
-
-    const result = await getDocs<Character>(
-      query<Character>(
-        this.getCollectionRef('characters'),
-        where('userID', '==', this.userID)
-      )
-    );
-    return result.docs.map(x => ({...x.data(), key: x.id}));
-  }
-
-  async getCharacterByID(id: string, observer: ((characters: Character) => void )): Promise<Unsubscribe> {
-    const result = x => observer({...x.data(), key: x.id});
-
-    const unsubscribe = onSnapshot<Character>(
-      this.getDocumentRef('characters',id),
-      result
-    );
-    this.unsubscribeAll.push(unsubscribe);
-    return unsubscribe;
-  }
-
-  async getBackgroundByName(name: string): Promise<Background[]> {
-    console.log(name);
-    const result = await getDocs<Background>(
-      query<Background>(
-        this.getCollectionRef('backgrounds'),
-        where('name', '==', name)
-      )
-    );
-    return result.docs.map(x => ({...x.data(), key: x.id}));
-    };
-
 
   private getCollectionRef<T>(collectionName: string): CollectionReference<T> {
     return collection(this.fireStore, collectionName) as CollectionReference<T>;

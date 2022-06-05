@@ -27,7 +27,6 @@ export class CharacterService {
   randomAvatar(): StandardAvatars {
     this.avatarList = randomizerList;
     const result = Math.floor(Math.random() * 5);
-    console.log(result);
     return this.avatarList[result];
   }
 

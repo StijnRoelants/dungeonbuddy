@@ -46,7 +46,7 @@ export class CreatecharPage implements OnInit {
   selectableProfCountClass = 0;
   imgURL: string;
 
-  constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet,
+  constructor(public modalController: ModalController, private routerOutlet: IonRouterOutlet,
               public charAvatar: CharAvatarService, public dbService: DatabaseService, public approuter: AppRoutingModule,
               public apiService: ApiService, public charService: CharacterService) { }
 

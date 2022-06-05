@@ -21,21 +21,28 @@ export class AuthService {
     this.auth.onAuthStateChanged((user: User) => {
       if (user) {
         this.currentUser.next(user);
-        console.log('You just logged in!');
+        console.log(this.currentUser);
+        this.router.navigate(['/']).then();
       }
     });
     /*this.auth.onAuthStateChanged(user => this.setCurrentUser(user));*/
   }
 
-
   getUser(): Observable<any> {
     return this.currentUser;
   }
 
-  isLoggedIn(): boolean {
-    return this.currentUser !== null;
-    /*return this.currentUser !== undefined;*/
-  }
+  /*
+  isLoggedIn(): any {
+    this.currentUser.subscribe(x => {
+      if (x !== undefined) {
+        return true;
+      }else {
+        return false;
+      }
+    });
+    return this.currentUser !== undefined;
+  }*/
 
   /*
   getProfilePic(): string {
@@ -61,6 +68,7 @@ export class AuthService {
     if (Capacitor.isNativePlatform()) {
       await signOut(this.auth);
     }
+    this.currentUser = new BehaviorSubject<User>(undefined);
   }
 
   async signInWithGoogle(): Promise<void> {
@@ -119,23 +127,5 @@ export class AuthService {
     await updateProfile(this.auth.currentUser, {
       displayName
     });
-  }
-
-  private async setCurrentUser(user: User): Promise<void> {
-    /*this.currentUser = user;*/
-    console.log(user);
-    this.currentUser.next(user);
-
-    let userID: string;
-
-    this.subscription = await this.getUser().subscribe( (x) => {
-      userID = x.uid;
-    });
-    console.log(userID);
-    if (userID !== undefined) {
-      await this.router.navigate(['/']);
-    } else {
-      await this.router.navigate(['/', 'login']);
-    }
   }
 }

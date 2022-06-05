@@ -7,9 +7,18 @@
         </ion-toolbar>
       </ion-header>
       <ion-content>
-        <ion-list *ngIf="authService.isLoggedIn()" lines="full" (click)='menu.close()'>
+        <ion-list *ngIf="isLoggedIn" lines="full" (click)='menu.close()'>
+          <ion-item>
+            <ion-avatar slot="start">
+              <img alt="profilePicture" src="{{imgURL}}" />
+            </ion-avatar>
+            <ion-label>
+              <ion-list-header>{{username}}</ion-list-header>
+              <ion-note *ngIf="userEmail !== undefined"
+                        class="ion-margin-start">{{userEmail}}</ion-note>
+            </ion-label>
+          </ion-item>
 
-          Userdata needs to be filled
 
           <ion-item href="" (click)="authService.signOut()">
             <ion-label >Logout</ion-label>
@@ -22,10 +31,6 @@
           <ion-item [routerLink]="['createchar']">
             <i slot="start" class="fa-solid fa-gavel iconColor"></i>
             Build a new character
-          </ion-item>
-          <ion-item [routerLink]="['faq']">
-            <i slot="start" class="fa-solid fa-question iconColor"></i>
-            FAQ
           </ion-item>
         </ion-list>
       </ion-content>
