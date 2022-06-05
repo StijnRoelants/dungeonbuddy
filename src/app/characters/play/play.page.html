@@ -10,42 +10,43 @@
 <ion-content class="ion-text-center ion-justify-content-center ion-padding-top ion-padding-start ion-padding-end">
   <ion-card class="maxWidth">
 
-      <img class="maxHeight" alt="avatar" src="{{imgURL}}"/>
+    <img class="maxHeight" alt="avatar" src="{{imgURL}}"/>
 
     <ion-card-header>
       <ion-card-subtitle>{{character.race}} | {{character.playerClass}} | Level: {{character.level}}</ion-card-subtitle>
       <ion-card-subtitle>Proficiency bonus +{{character.proficiencyBonus}}</ion-card-subtitle>
-      <ion-card-title >{{character.name}}</ion-card-title>
+      <ion-card-title>{{character.name}}</ion-card-title>
 
     </ion-card-header>
-      <ion-card-content>
-        <ion-item >
-          <i class="fa-solid fa-shield-halved ion-margin"></i>
-          <h2> {{character.armorClass}}</h2>
-        </ion-item>
-        <ion-item color="danger" [hidden]="character.hitPoints > character.maxHitPoints / 2">
-          <i class="fa-solid fa-heart ion-margin"></i>
-          <h2>{{character.hitPoints}}/{{character.maxHitPoints}}HP</h2>
-        </ion-item>
-        <ion-item [hidden]="character.hitPoints <= character.maxHitPoints / 2">
-          <i class="fa-solid fa-heart ion-margin"></i>
-          <h2>{{character.hitPoints}}/{{character.maxHitPoints}}HP</h2>
-        </ion-item>
-        <ion-item class="ion-text-center">
-          <ion-progress-bar color="tertiary" value="{{percentage}}" ></ion-progress-bar>
-          <ion-text color="medium" class="xpTXT">XP: {{character.xp}} / {{character.xpToNextLevel}}</ion-text>
-        </ion-item>
-        <ion-item class="ion-text-center">
-          <ion-label [hidden]="!showMessageBox">{{message}}</ion-label>
-        </ion-item>
-        <ion-buttons class="ion-justify-content-center ion-text-start">
-          <ion-button class="buttonList" (click)="characterHeal()"><i class="fa-solid fa-heart ion-padding-end"></i> Heal</ion-button>
-          <ion-button class="buttonList" (click)="characterDamage()"><i class="fa-solid fa-skull-crossbones ion-padding-end"></i>Take damage</ion-button>
-        </ion-buttons>
-        <ion-buttons class="ion-justify-content-center" slot="start">
-          <ion-button  class="buttonList" (click)="characterXP()"><i class="fa-solid fa-plus ion-padding-end"></i>Add xp</ion-button>
-        </ion-buttons>
-      </ion-card-content>
+    <ion-card-content>
+      <ion-item>
+        <i class="fa-solid fa-shield-halved ion-margin"></i>
+        <h2> {{character.armorClass}}</h2>
+      </ion-item>
+      <ion-item color="danger" [hidden]="character.hitPoints > character.maxHitPoints / 2">
+        <i class="fa-solid fa-heart ion-margin"></i>
+        <h2>{{character.hitPoints}}/{{character.maxHitPoints}}HP</h2>
+      </ion-item>
+      <ion-item [hidden]="character.hitPoints <= character.maxHitPoints / 2">
+        <i class="fa-solid fa-heart ion-margin"></i>
+        <h2>{{character.hitPoints}}/{{character.maxHitPoints}}HP</h2>
+      </ion-item>
+      <ion-item class="ion-text-center">
+        <ion-progress-bar color="tertiary" value="{{percentage}}"></ion-progress-bar>
+        <ion-text color="medium" class="xpTXT">XP: {{character.xp}} / {{character.xpToNextLevel}}</ion-text>
+      </ion-item>
+      <ion-buttons class="ion-justify-content-center">
+        <ion-button class="buttonList" (click)="characterHeal()"><i class="fa-solid fa-heart ion-padding-end"></i> Heal
+        </ion-button>
+        <ion-button class="buttonList" (click)="characterDamage()"><i
+          class="fa-solid fa-skull-crossbones ion-padding-end"></i>Take damage
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons class="ion-justify-content-center" slot="start">
+        <ion-button class="buttonList" (click)="characterXP()"><i class="fa-solid fa-plus ion-padding-end"></i>Add xp
+        </ion-button>
+      </ion-buttons>
+    </ion-card-content>
   </ion-card>
 
 </ion-content>

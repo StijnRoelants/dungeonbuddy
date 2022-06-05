@@ -13,7 +13,7 @@ export class InfoModalComponent implements OnInit {
   title = '';
 
 
-  constructor(private modalController: ModalController) {
+  constructor(public modalController: ModalController) {
 
   }
 

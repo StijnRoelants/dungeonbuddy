@@ -5,26 +5,48 @@ import {Auth, signInWithCredential, signOut} from '@angular/fire/auth';
 import {updateProfile, GoogleAuthProvider, PhoneAuthProvider, User, FacebookAuthProvider} from 'firebase/auth';
 import {Capacitor} from '@capacitor/core';
 import { GithubAuthProvider } from 'firebase/auth';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private currentUser: null | User = null;
+  /*private currentUser: null | User = null;*/
+  private currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(undefined);
   private verificationId: string;
+  private subscription: Subscription;
 
   constructor(public auth: Auth, public router: Router) {
-    this.auth.onAuthStateChanged(user => this.setCurrentUser(user));
+    this.auth.onAuthStateChanged((user: User) => {
+      if (user) {
+        this.currentUser.next(user);
+        console.log(this.currentUser);
+        this.router.navigate(['/']).then();
+      }
+    });
+    /*this.auth.onAuthStateChanged(user => this.setCurrentUser(user));*/
   }
 
-  isLoggedIn(): boolean {
-    return this.currentUser !== null;
+  getUser(): Observable<any> {
+    return this.currentUser;
   }
 
+  /*
+  isLoggedIn(): any {
+    this.currentUser.subscribe(x => {
+      if (x !== undefined) {
+        return true;
+      }else {
+        return false;
+      }
+    });
+    return this.currentUser !== undefined;
+  }*/
+
+  /*
   getProfilePic(): string {
-    // eslint-disable-next-line max-len
-    return this.currentUser && this.currentUser.photoURL ? this.currentUser.photoURL : 'https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y';
+    return this.currentUser && this.currentUser.photoURL
   }
 
   getDisplayName(): string | undefined {
@@ -38,6 +60,7 @@ export class AuthService {
   getUserUID(): string | undefined {
     return this.currentUser ? this.currentUser.uid : undefined;
   }
+  */
 
   async signOut(): Promise<void> {
     await FirebaseAuthentication.signOut();
@@ -45,6 +68,7 @@ export class AuthService {
     if (Capacitor.isNativePlatform()) {
       await signOut(this.auth);
     }
+    this.currentUser = new BehaviorSubject<User>(undefined);
   }
 
   async signInWithGoogle(): Promise<void> {
@@ -103,14 +127,5 @@ export class AuthService {
     await updateProfile(this.auth.currentUser, {
       displayName
     });
-  }
-
-  private async setCurrentUser(user: User): Promise<void> {
-    this.currentUser = user;
-    if (this.currentUser) {
-      await this.router.navigate(['/']);
-    } else {
-      await this.router.navigate(['/', 'login']);
-    }
   }
 }

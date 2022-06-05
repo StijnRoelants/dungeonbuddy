@@ -1,12 +1,14 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Choose your skills</ion-title>
-    <ion-buttons slot='start'>
-      <ion-button (click)='dismissModal()'>Close</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+
+<ion-toolbar>
+  <ion-title>Choose your skills</ion-title>
+  <ion-buttons slot='start'>
+    <ion-button (click)='dismissModal()'>Close</ion-button>
+  </ion-buttons>
+</ion-toolbar>
 <ion-content>
+  <ion-button expand="full" (click)="dismissModalAndSave()" color="tertiary" [disabled]="selectedAmount !== amount">
+    Choose skills
+  </ion-button>
   <ion-list lines="inset">
     <ion-list-header>
       You have chosen {{selectedAmount}} / {{amount}} skills available
@@ -16,7 +18,4 @@
       <ion-label>{{skill.val}}</ion-label>
     </ion-item>
   </ion-list>
-  <ion-button expand="full" (click)="dismissModalAndSave()" color="tertiary" [disabled]="selectedAmount !== amount">
-    Choose skills
-  </ion-button>
 </ion-content>

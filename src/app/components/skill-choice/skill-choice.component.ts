@@ -18,7 +18,7 @@ export class SkillChoiceComponent implements OnInit {
   choices: string[] = [];
   done = true;
 
-  constructor(private modalController: ModalController) { }
+  constructor(public modalController: ModalController) { }
 
   ngOnInit() {
     this.amount = this.passingNumber;

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FirebaseApp} from '@angular/fire/app';
 import {AuthService} from './services/auth.service';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -10,8 +11,38 @@ import {AuthService} from './services/auth.service';
 })
 export class AppComponent {
 
+  isLoggedIn: boolean;
+  imgURL: string;
+  username: string;
+  userEmail: string;
+  subscription: Subscription = new Subscription();
+
   constructor(firebaseApp: FirebaseApp, public authService: AuthService) {}
 
+  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
+  async ngOnInit(){
+    console.log('HELLO!');
+    await this.getData();
+    console.log(this.imgURL);
+  }
+
+  ionViewDidLeave() {
+    this.subscription.unsubscribe();
+  }
+
+  async getData(): Promise<void> {
+    this.subscription = this.authService.getUser().subscribe(x => {
+      if (x !== undefined){
+        this.isLoggedIn = true;
+        this.username = x.displayName;
+        this.userEmail = x.email;
+        this.imgURL = x.photoURL;
+        console.log('last');
+      } else {
+        this.isLoggedIn = false;
+      }
+    });
+  }
 
 
 }

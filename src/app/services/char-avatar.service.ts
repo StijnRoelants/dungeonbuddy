@@ -25,6 +25,7 @@ export class CharAvatarService {
       await this.avatarPWA();
     }
     await this.persistAvatarURI();
+    return;
   }
 
   private async avatarPWA(): Promise<void> {
