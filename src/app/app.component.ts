@@ -21,9 +21,7 @@ export class AppComponent {
 
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   async ngOnInit(){
-    console.log('HELLO!');
     await this.getData();
-    console.log(this.imgURL);
   }
 
   ionViewDidLeave() {
@@ -37,7 +35,6 @@ export class AppComponent {
         this.username = x.displayName;
         this.userEmail = x.email;
         this.imgURL = x.photoURL;
-        console.log('last');
       } else {
         this.isLoggedIn = false;
       }

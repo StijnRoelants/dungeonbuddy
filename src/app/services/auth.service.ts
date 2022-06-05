@@ -21,7 +21,7 @@ export class AuthService {
     this.auth.onAuthStateChanged((user: User) => {
       if (user) {
         this.currentUser.next(user);
-        console.log(this.currentUser);
+        /*console.log(this.currentUser);*/
         this.router.navigate(['/']).then();
       }
     });

@@ -16,6 +16,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {InfoModalComponent} from './components/info-modal/info-modal.component';
 /* Added skillChoiceComponent so *ng.. could be used in Modals */
 import {SkillChoiceComponent} from './components/skill-choice/skill-choice.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -29,7 +30,13 @@ import {SkillChoiceComponent} from './components/skill-choice/skill-choice.compo
       return firestore;
     }),
     provideAuth(() => getAuth()),
-    HttpClientModule
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
