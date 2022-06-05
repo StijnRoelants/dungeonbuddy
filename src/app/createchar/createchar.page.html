@@ -1,0 +1,441 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Build a new character
+    </ion-title>
+
+    <ion-buttons slot='start'>
+      <ion-menu-button menuId='menu'></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Build</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-item-divider sticky="true">
+      <ion-label slot="start" class="ion-margin iconColor">Basics</ion-label>
+      <ion-icon (click)="presentModal('BasicInfo')" class="ion-margin iconColor" slot="end"
+                name="information-circle"></ion-icon>
+    </ion-item-divider>
+
+    <ion-item lines="full">
+      <ion-avatar slot="start">
+        <img *ngIf="charAvatar.avatar === undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" [src]="standardAvatar.srcString"/>
+        <img *ngIf="isNative() && charAvatar.avatar !== undefined" (click)="createAvatarNative()" alt="charAvatar" [src]="imgURL" />
+        <img *ngIf="charAvatar.avatar !== undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" [src]="charAvatar.avatar.dataUrl"/>
+      </ion-avatar>
+      <ion-label position="floating">Character name</ion-label>
+      <ion-input type="text" class="ion-margin-top" [(ngModel)]="charName" [required]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Race</ion-label>
+      <ion-select (ionChange)="clearAll()" [(ngModel)]="selectedRace" [required]="true">
+        <ion-select-option *ngFor='let r of raceList' [value]="r">{{r}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Class</ion-label>
+      <ion-select (ionChange)="clearAll()" [(ngModel)]="selectedClass" [required]="true">
+        <ion-select-option *ngFor='let c of classList' [value]="c">{{c}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Background</ion-label>
+      <ion-select (ionChange)="clearAll()" [(ngModel)]="selectedBG" [required]="true">
+        <ion-select-option *ngFor='let b of bgList' [value]="b">{{b}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Alignment</ion-label>
+      <ion-select (ionChange)="clearAll()" [(ngModel)]="selectedAlign" [required]="true">
+        <ion-select-option *ngFor='let a of alignmentList' [value]="a">{{a}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Level</ion-label>
+      <ion-input type="number" [min]="1" [max]="20" class="ion-margin-top" [(ngModel)]="level" [required]="true"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">XP</ion-label>
+      <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.xp" [required]="true"></ion-input>
+    </ion-item>
+
+    <ion-item-divider sticky="true">
+      <ion-label slot="start" class="ion-margin  iconColor">Abilities</ion-label>
+      <ion-icon (click)="presentModal('AbilitieInfo')" class="ion-margin iconColor" slot="end"
+                name="information-circle"></ion-icon>
+    </ion-item-divider>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col class="ion-text-center" size-xl="3" size-xs="12">
+      <ion-button class="minWidthButton" (click)="generateRandomAbilities()" [disabled]="checkIfReadyForRandom()"
+                  size="large"  color="tertiary">
+        <i  class="fa-solid fa-dice"></i>
+        <p  class="ion-margin">Roll!</p>
+      </ion-button>
+      </ion-col>
+      <ion-col class="ion-text-center" size-xl="3" size-xs="12">
+      <ion-button class="minWidthButton" (click)="implementModifs()" size="large"  color="tertiary" [disabled]="!this.canModif">
+        <i class="fa-solid fa-dice"></i>
+        <p class="ion-margin">Modifiers</p>
+      </ion-button>
+      </ion-col>
+      <ion-col class="ion-text-center" size-xl="3" size-xs="12">
+      <ion-button class="minWidthButton" (click)="implementSkills()" size="large"  color="tertiary" [disabled]="!this.canSkills">
+        <i class="fa-solid fa-dice"></i>
+        <p class="ion-margin">Skills</p>
+      </ion-button>
+      </ion-col>
+    </ion-row>
+
+
+
+    <ion-row>
+      <ion-col size-xl="3" size-xs="6">
+    <ion-item lines="full">
+      <ion-label position="floating">Strength</ion-label>
+      <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.strength" [required]="true"></ion-input>
+    </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Strength modifier</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.strengthModif"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Dexterity</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.dexterity"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Dexterity modifier</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.dexterityModif"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Constitution</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.constitution"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Constitution modifier</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.constitutionModif"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Intelligence</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.intelligence"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Intelligence modifier</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.intelligenceModif"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Wisdom</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.wisdom" [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Wisdom modifier</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.wisdomModif"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Charisma</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.charisma" [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Charisma modifier</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.charismaModif"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-item-divider sticky="true">
+        <ion-label slot="start" class="ion-margin iconColor" >Saving Throws</ion-label>
+        <ion-icon (click)="presentModal('stInfo')" class="ion-margin iconColor" slot="end"
+                  name="information-circle"></ion-icon>
+      </ion-item-divider>
+
+      <ion-row>
+        <ion-col size-xl="4" size-xs="12">
+          <ion-item lines="full">
+            <ion-label position="floating">Strength</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stStrength"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="4" size-xs="12">
+          <ion-item lines="full">
+            <ion-label position="floating">Dexterity</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stDexterity"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="4" size-xs="12">
+          <ion-item lines="full">
+            <ion-label position="floating">Constitution</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stConstitution"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-xl="4" size-xs="12">
+          <ion-item lines="full">
+            <ion-label position="floating">Intelligence</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stIntelligence"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="4" size-xs="12">
+          <ion-item lines="full">
+            <ion-label position="floating">Wisdom</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stWisdom"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="4" size-xs="12">
+          <ion-item lines="full">
+            <ion-label position="floating">Charisma</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.stCharisma"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-item-divider sticky="true">
+        <ion-label slot="start" class="ion-margin iconColor">Skills</ion-label>
+        <ion-icon (click)="presentModal('SkillsInfo')" class="ion-margin iconColor" slot="end"
+                  name="information-circle"></ion-icon>
+      </ion-item-divider>
+
+      <ion-row>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Acrobatics</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.acrobatics"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Animal Handling</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.animalHandling"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Arcana</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.arcana"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Athletics</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.athletics"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Deception</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.deception"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">History</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.history"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Insight</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.insight"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Intimidation</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.intimidation"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Investigation</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.investigation"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Medicine</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.medicine"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Nature</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.nature"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Perception</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.perception"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Performance</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.performance"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Persuasion</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.persuasion"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Religion</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.religion"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="3" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Sleight of Hand</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.sleightOfHand"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size-xl="6" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Stealth</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.stealth"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-xl="6" size-xs="6">
+          <ion-item lines="full">
+            <ion-label position="floating">Survival</ion-label>
+            <ion-input type="number" class="ion-margin-top" [(ngModel)]="newSkills.survival"
+                       [required]="true"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+    <ion-item-divider sticky="true">
+      <ion-label slot="start" class="ion-margin iconColor">Extra</ion-label>
+    </ion-item-divider>
+
+    <ion-row>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Hit points</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.hitPoints"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Armor class</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.armorClass"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Dice type</ion-label>
+          <ion-input type="number" [max]="20" [min]="4" class="ion-margin-top" [(ngModel)]="newCharacter.hitDie"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="3" size-xs="6">
+        <ion-item lines="full">
+          <ion-label position="floating">Starting gold</ion-label>
+          <ion-input type="number" class="ion-margin-top" [(ngModel)]="newCharacter.gold"
+                     [required]="true"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-item lines="full">
+      <ion-label position="floating">Personality Traits</ion-label>
+      <ion-textarea cols="10" rows="5" class="ion-margin-top" [(ngModel)]="newCharacter.personalTraits" [required]="false"></ion-textarea>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Ideals</ion-label>
+      <ion-textarea cols="10" rows="5" class="ion-margin-top" [(ngModel)]="newCharacter.ideals" [required]="false"></ion-textarea>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Bonds</ion-label>
+      <ion-textarea cols="10" rows="5" class="ion-margin-top" [(ngModel)]="newCharacter.bonds" [required]="false"></ion-textarea>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Flaws</ion-label>
+      <ion-textarea cols="10" rows="5" class="ion-margin-top" [(ngModel)]="newCharacter.flaws" [required]="false"></ion-textarea>
+    </ion-item>
+    <ion-button (click)="createCharacter()" size="large" expand="full" color="tertiary" [disabled]="checkIfCanCreate()">
+      <i class="fa-regular fa-floppy-disk"></i><p class="ion-margin">Save character</p>
+    </ion-button>
+  </ion-grid>
+</ion-content>

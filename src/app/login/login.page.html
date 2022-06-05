@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Log-in
+    </ion-title>
+
+    <ion-buttons slot='start'>
+      <ion-menu-button menuId='menu'></ion-menu-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Log-in</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col offsetXs="0" offsetSm="3" offsetMd="4" sizeXs="12" sizeSm="6" sizeMd="4">
+
+        <!-- Add at least 1 extra provider if you want to use this in your project. -->
+
+        <ion-button expand="block" class="ion-margin-vertical buttonHeight" color="tertiary" (click)="authService.signInWithGoogle()">
+            <ion-icon slot="start" size="large" name="logo-google"></ion-icon>
+            <ion-text>Login with Google</ion-text>
+        </ion-button>
+
+        <ion-button expand="block" class="ion-margin-vertical buttonHeight" color="tertiary"  (click)="authService.signInWithFacebook()">
+          <ion-icon slot="start" size="large" name="logo-facebook"></ion-icon>
+          <ion-text>Login with Facebook</ion-text>
+        </ion-button>
+
+        <ion-button expand="block" class="ion-margin-vertical buttonHeight" color="tertiary"  (click)="authService.signInWithGitHub()">
+          <ion-icon slot="start" size="large" name="logo-github"></ion-icon>
+          <ion-text>Login with Github</ion-text>
+        </ion-button>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>

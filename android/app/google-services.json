@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "641249752662",
+    "project_id": "dungeonbuddy-29226",
+    "storage_bucket": "dungeonbuddy-29226.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641249752662:android:3fbdeeffdbbdeafb02adf7",
+        "android_client_info": {
+          "package_name": "com.roelants.stijn.dungeonbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641249752662-19080ulh4fst13f3a3l83tkfibdkpoh1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roelants.stijn.dungeonbuddy",
+            "certificate_hash": "5afd8f4058f4d7a8ef32aedca36fe133881ab4aa"
+          }
+        },
+        {
+          "client_id": "641249752662-klmitvmag306k9imt17u3k5848cd32d6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcdX3QbLV4cz60tQQiH01rZzapontAtFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641249752662-klmitvmag306k9imt17u3k5848cd32d6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

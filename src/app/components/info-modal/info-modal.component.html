@@ -1,0 +1,13 @@
+
+<ion-toolbar>
+  <ion-title>{{title}}</ion-title>
+  <ion-buttons slot='start'>
+    <ion-button (click)='dismissModal()'>Close</ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-content>
+  <ion-item lines="full">
+    <div class="ion-margin" [innerHTML]="message"></div>
+  </ion-item>
+
+</ion-content>
