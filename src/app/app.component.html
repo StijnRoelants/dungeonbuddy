@@ -8,16 +8,9 @@
       </ion-header>
       <ion-content>
         <ion-list *ngIf="authService.isLoggedIn()" lines="full" (click)='menu.close()'>
-          <ion-item >
-            <ion-avatar slot="start">
-              <img alt="profilePicture" [src]="authService.getProfilePic()" />
-            </ion-avatar>
-            <ion-label>
-              <ion-list-header>{{authService.getDisplayName()}}</ion-list-header>
-              <ion-note *ngIf="authService.getEmail()"
-                        class="ion-margin-start">{{authService.getEmail()}}</ion-note>
-            </ion-label>
-          </ion-item>
+
+          Userdata needs to be filled
+
           <ion-item href="" (click)="authService.signOut()">
             <ion-label >Logout</ion-label>
           </ion-item>

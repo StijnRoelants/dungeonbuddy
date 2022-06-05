@@ -28,7 +28,7 @@
     <ion-item lines="full">
       <ion-avatar slot="start">
         <img *ngIf="charAvatar.avatar === undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" [src]="standardAvatar.srcString"/>
-        <img *ngIf="isNative() && charAvatar.avatar !== undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" src="{{'data:image/png;base64,' + charAvatar.avatar.base64String}}}" />
+        <img *ngIf="isNative() && charAvatar.avatar !== undefined" (click)="createAvatarNative()" alt="charAvatar" [src]="imgURL" />
         <img *ngIf="charAvatar.avatar !== undefined" (click)="charAvatar.createAvatar()" alt="charAvatar" [src]="charAvatar.avatar.dataUrl"/>
       </ion-avatar>
       <ion-label position="floating">Character name</ion-label>
@@ -78,7 +78,7 @@
       <ion-button class="minWidthButton" (click)="generateRandomAbilities()" [disabled]="checkIfReadyForRandom()"
                   size="large"  color="tertiary">
         <i  class="fa-solid fa-dice"></i>
-        <p  class="ion-margin">Randomise</p>
+        <p  class="ion-margin">Roll!</p>
       </ion-button>
       </ion-col>
       <ion-col class="ion-text-center" size-xl="3" size-xs="12">

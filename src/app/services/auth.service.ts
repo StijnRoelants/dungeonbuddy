@@ -5,26 +5,41 @@ import {Auth, signInWithCredential, signOut} from '@angular/fire/auth';
 import {updateProfile, GoogleAuthProvider, PhoneAuthProvider, User, FacebookAuthProvider} from 'firebase/auth';
 import {Capacitor} from '@capacitor/core';
 import { GithubAuthProvider } from 'firebase/auth';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private currentUser: null | User = null;
+  /*private currentUser: null | User = null;*/
+  private currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(undefined);
   private verificationId: string;
+  private subscription: Subscription;
 
   constructor(public auth: Auth, public router: Router) {
-    this.auth.onAuthStateChanged(user => this.setCurrentUser(user));
+    this.auth.onAuthStateChanged((user: User) => {
+      if (user) {
+        this.currentUser.next(user);
+        console.log('You just logged in!');
+      }
+    });
+    /*this.auth.onAuthStateChanged(user => this.setCurrentUser(user));*/
+  }
+
+
+  getUser(): Observable<any> {
+    return this.currentUser;
   }
 
   isLoggedIn(): boolean {
     return this.currentUser !== null;
+    /*return this.currentUser !== undefined;*/
   }
 
+  /*
   getProfilePic(): string {
-    // eslint-disable-next-line max-len
-    return this.currentUser && this.currentUser.photoURL ? this.currentUser.photoURL : 'https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y';
+    return this.currentUser && this.currentUser.photoURL
   }
 
   getDisplayName(): string | undefined {
@@ -38,6 +53,7 @@ export class AuthService {
   getUserUID(): string | undefined {
     return this.currentUser ? this.currentUser.uid : undefined;
   }
+  */
 
   async signOut(): Promise<void> {
     await FirebaseAuthentication.signOut();
@@ -106,8 +122,17 @@ export class AuthService {
   }
 
   private async setCurrentUser(user: User): Promise<void> {
-    this.currentUser = user;
-    if (this.currentUser) {
+    /*this.currentUser = user;*/
+    console.log(user);
+    this.currentUser.next(user);
+
+    let userID: string;
+
+    this.subscription = await this.getUser().subscribe( (x) => {
+      userID = x.uid;
+    });
+    console.log(userID);
+    if (userID !== undefined) {
       await this.router.navigate(['/']);
     } else {
       await this.router.navigate(['/', 'login']);

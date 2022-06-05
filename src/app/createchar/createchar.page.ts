@@ -44,6 +44,7 @@ export class CreatecharPage implements OnInit {
   startingProficiencies: string[] = [];
   selectableProficienciesClass: string[] = [];
   selectableProfCountClass = 0;
+  imgURL: string;
 
   constructor(private modalController: ModalController, private routerOutlet: IonRouterOutlet,
               public charAvatar: CharAvatarService, public dbService: DatabaseService, public approuter: AppRoutingModule,
@@ -62,11 +63,17 @@ export class CreatecharPage implements OnInit {
     this.selectedClass = '';
     this.selectedBG = '';
     this.selectedAlign = '';
+    this.imgURL = '';
     delete(this.charAvatar.avatar);
     this.startingProficiencies = [];
     this.selectableProficienciesClass = [];
     this.selectableProfCountClass = 0;
     this.level = 1;
+  }
+
+  async createAvatarNative(): Promise<void> {
+   await this.charAvatar.createAvatar();
+   this.imgURL = `data:image/png;base64,${this.charAvatar.avatar.base64String}`;
   }
 
   isNative(): boolean {
@@ -381,4 +388,5 @@ export class CreatecharPage implements OnInit {
     this.newCharacter.wisdom += abilityScore[4];
     this.newCharacter.charisma += abilityScore[5];
   }
+
 }

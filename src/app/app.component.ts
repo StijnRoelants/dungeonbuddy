@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FirebaseApp} from '@angular/fire/app';
 import {AuthService} from './services/auth.service';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -11,8 +12,6 @@ import {AuthService} from './services/auth.service';
 export class AppComponent {
 
   constructor(firebaseApp: FirebaseApp, public authService: AuthService) {}
-
-
 
 }
 

@@ -11,12 +11,15 @@ import {
 } from '@angular/fire/firestore';
 import {Character} from '../../classes/character';
 import {Background} from '../../classes/backgrounds';
+import {Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
 
+  subscription: Subscription;
+  userID: string;
   private readonly unsubscribeAll: Unsubscribe[] = [];
 
   constructor(private authService: AuthService, private fireStore: Firestore) { }
@@ -33,7 +36,8 @@ export class DatabaseService {
 
   async createCharacter(newCharacter: Character): Promise<void> {
     const createdCharacter: Character = newCharacter;
-    createdCharacter.userID = this.authService.getUserUID();
+    /*createdCharacter.userID = this.authService.getUserUID();*/
+    createdCharacter.userID = this.userID;
 
     //console.log(createdCharacter);
 
@@ -43,11 +47,23 @@ export class DatabaseService {
     );
   }
 
+  async getUser(): Promise<void> {
+    this.subscription = await this.authService.getUser().subscribe(x => {
+      this.userID = x.uid;
+    });
+    this.subscription.unsubscribe();
+    return;
+  }
+
   async getCharactersByUserID(): Promise<Character[]> {
+
+    await this.getUser();
+    console.log(this.userID);
+
     const result = await getDocs<Character>(
       query<Character>(
         this.getCollectionRef('characters'),
-        where('userID', '==', this.authService.getUserUID())
+        where('userID', '==', this.userID)
       )
     );
     return result.docs.map(x => ({...x.data(), key: x.id}));
