@@ -27,15 +27,13 @@ export class Tab1Page {
   }
 
   ionViewDidLeave() {
-    console.log('I quit!');
+    /*console.log('I quit!');*/
     this.subscription.unsubscribe();
   }
 
   async getData(): Promise<void> {
     this.subscription = this.authService.getUser().subscribe(x => {
       if (x !== undefined){
-        console.log('Check!');
-        console.log(x);
         this.contentLoaded = false;
         this.getCharacters();
       } else {
