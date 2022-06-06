@@ -1,7 +1,7 @@
 <ion-app>
   <ion-split-pane contentId="main">
     <ion-menu #menu side="start" menuId="menu" contentId="main">
-      <ion-header>
+      <ion-header class="appColor">
         <ion-toolbar color="tertiary" class="ion-text-center">
           <img alt="logo" src="assets/logo-02.png" class="logoSize ion-margin">
         </ion-toolbar>
@@ -31,6 +31,10 @@
           <ion-item [routerLink]="['createchar']">
             <i slot="start" class="fa-solid fa-gavel iconColor"></i>
             Build a new character
+          </ion-item>
+          <ion-item [routerLink]="['faq']">
+            <i slot="start" class="fa-solid fa-question iconColor"></i>
+            FAQ
           </ion-item>
         </ion-list>
       </ion-content>

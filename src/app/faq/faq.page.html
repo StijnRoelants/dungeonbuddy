@@ -17,4 +17,55 @@
       <ion-title size="large">FAQ</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-accordion-group>
+    <ion-accordion value="1">
+      <ion-item slot="header">
+        <ion-label>What is this?</ion-label>
+      </ion-item>
+      <ion-item slot="content" class="ion-margin">
+        <p>DungeonBuddy is a school project. I was tasked with building an app from scratch in Angular using Ionic and other tools.
+        What you see here is what the result of this project. <br><br>
+        Firebase was used for hosting and database services. <br><br>
+        <a target="_blank" href="https://www.dnd5eapi.co/docs/#get-/api" >DND5api</a> was used for getting data relevant to character race and class.</p>
+
+      </ion-item>
+    </ion-accordion>
+    <ion-accordion value="2">
+      <ion-item slot="header">
+        <ion-label>How does it work?</ion-label>
+      </ion-item>
+      <ion-item *ngIf="gotCharacters" slot="content" class="ion-margin">
+        <p>
+          Well it looks like you've already made some characters? So if you want more information on how DnD works i will refer you to
+          <a target="_blank" href="https://www.dndbeyond.com/">DND Beyond</a>, this website has great starters guide and a much more expansive app.
+        </p>
+      </ion-item>
+        <ion-item *ngIf="!gotCharacters" slot="content" class="ion-margin">
+          <p>
+            Ah, you are new I see! <br><br>
+            You can build your own characters in on the "Build a new character" page (obviously). Just pick a name, class, race, background and alignment. After choosing this, you can let fate decide your stats! pretty neat huh?!<br><br>
+            If you would like more info on what these stats actually represent im going to refer you to: <a target="_blank" href="https://www.dndbeyond.com/">DND Beyond</a>, this website has great starters guide and a much more expansive app.
+          </p>
+      </ion-item>
+    </ion-accordion>
+    <ion-accordion value="3">
+      <ion-item slot="header">
+        <ion-label>I've made a character, now what?</ion-label>
+      </ion-item>
+      <ion-item *ngIf="gotCharacters" slot="content" class="ion-margin">
+        <p>
+          Your story begins. Hopefully you've also found a group you can play DND with?<br><br>
+          When you click on one of your characters, you can change their relevant stats like your health and add XP.
+        </p>
+      </ion-item>
+    </ion-accordion>
+    <ion-accordion value="4">
+      <ion-item slot="header">
+        <ion-label>GitHub Repo?</ion-label>
+      </ion-item>
+      <ion-item *ngIf="gotCharacters" slot="content" class="ion-margin">
+        <a target="_blank" href="https://github.com/StijnRoelants/dungeonbuddy">Sure, you can find it here!</a>
+      </ion-item>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>

@@ -52,6 +52,9 @@ export class PlayPage implements OnInit {
   async characterHeal(): Promise<void> {
     await this.showAlert('heal');
     let result = parseInt(String(this.character.hitPoints), 10) + parseInt(String(this.alertResult), 10);
+    if (isNaN(result)) {
+      result = this.character.hitPoints;
+    }
     if (result > this.character.maxHitPoints) {
       result = this.character.maxHitPoints;
     }
@@ -63,6 +66,9 @@ export class PlayPage implements OnInit {
   async characterDamage(): Promise<void> {
     await this.showAlert('hit');
     let result = parseInt(String(this.character.hitPoints), 10) - parseInt(String(this.alertResult), 10);
+    if (isNaN(result)) {
+      result = 0;
+    }
     if (result < 0) {
       result = 0;
     }
@@ -73,7 +79,10 @@ export class PlayPage implements OnInit {
 
   async characterXP(): Promise<void> {
     await this.showAlert('xp');
-    const result = parseInt(String(this.character.xp), 10) + parseInt(String(this.alertResult), 10);
+    let result = parseInt(String(this.character.xp), 10) + parseInt(String(this.alertResult), 10);
+    if (isNaN(result)) {
+      result = 0;
+    }
     if (result >= this.character.xpToNextLevel){
       this.charService.levelUp(this.character);
     }
