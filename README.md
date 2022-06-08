@@ -1,4 +1,4 @@
-# dungeonbuddy
+# DungeonBuddy
 Eind project voor mobile applications
 
 
